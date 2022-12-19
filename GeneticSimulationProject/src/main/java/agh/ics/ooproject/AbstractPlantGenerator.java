@@ -1,4 +1,4 @@
 package agh.ics.ooproject;
 
-public class AbstractPlantGenerator {
+abstract public class AbstractPlantGenerator {
 }
