@@ -1,4 +1,4 @@
 package agh.ics.ooproject;
 
-public class AbstractGenotype {
+abstract public class AbstractGenotype {
 }
