@@ -6,16 +6,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class SimulationEngine implements Runnable {
     private int sleepTimer = 500;
 
-    private int simulationNumber;
+    public int simulationNumber;
 
-    private SimulationVisualizer simVis;
+    private final SimulationVisualizer simVis;
 
-    public SimulationEngine(SimulationVisualizer vis, int simNo, int newTime){
-        this.sleepTimer = newTime;
-        this.simVis = vis;
+
+    public SimulationEngine(int simNo, ArrayList<Integer> args){
+        this.sleepTimer = 500;
+        this.simVis = new SimulationVisualizer(args, this);
         this.simulationNumber = simNo;
     }
 
@@ -39,9 +42,6 @@ public class SimulationEngine implements Runnable {
                     simVis.updateScene(finalI);
                 }
             });
-
-//            infoLabel.setText(String.valueOf(i));
-//            System.out.println(i);
             Thread.sleep(sleepTimer);
             i++;
         }

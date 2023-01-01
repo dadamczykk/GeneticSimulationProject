@@ -29,8 +29,10 @@ public class App extends Application {
     private AbstractMap map;
     private Stage stage;
 
-    private List<SimulationEngine> engines = new ArrayList<>();
-    private List<SimulationVisualizer> visualizers = new ArrayList<>();
+    public ArrayList<Thread> threads = new ArrayList<>();
+
+    private final List<SimulationEngine> engines = new ArrayList<>();
+//    private List<SimulationVisualizer> visualizers = new ArrayList<>();
 
 
     @Override
@@ -187,7 +189,7 @@ public class App extends Application {
         animalCopulateEnergy.setMinWidth(minWidth);
         animalCopulateEnergy.setMinHeight(minHeight);
 
-        TextField minChildMutations = new TextField("5");
+        TextField minChildMutations = new TextField("2");
         Label minChildMutationsLabel = new Label("Choose min mutations of children");
         HBox minChildMutationsCont = new HBox(minChildMutationsLabel, minChildMutations);
         minChildMutationsLabel.setMinWidth(minWidth);
@@ -251,12 +253,34 @@ public class App extends Application {
         startSim.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                try { // to całe parsowanie tutaj jest potrzebne, żeby sprawdzać, czy dane wejściowe są poprawne.
+                    ArrayList<Integer> arguments = new ArrayList<>(Arrays.asList(worldVersion.getValue().ordinal(),
+                            plantsVersion.getValue().ordinal(),
+                            mutationVersion.getValue().ordinal(), behaviourVersion.getValue().ordinal(),
+                            Integer.parseInt(mapWidthField.getText()), Integer.parseInt(mapHeightField.getText()),
+                            Integer.parseInt(plantsOnStart.getText()), Integer.parseInt(animalsOnStart.getText()),
+                            Integer.parseInt(plantEnergy.getText()), Integer.parseInt(animalsEnergy.getText()),
+                            Integer.parseInt(animalFullEnergy.getText()), Integer.parseInt(animalCopulateEnergy.getText()),
+                            Integer.parseInt(minChildMutations.getText()), Integer.parseInt(maxChildMutations.getText()),
+                            Integer.parseInt(genomeLength.getText()), saveData.isSelected() ? 1 : 0));
+                    if (Integer.parseInt(minChildMutations.getText())>=Integer.parseInt(maxChildMutations.getText())){
+                        throw new Exception("Incorrect min and max value of children mutations");
+                    }
+                    SimulationEngine se = new SimulationEngine(engines.size(), arguments);
+                    engines.add(se);
+                    Thread th = new Thread(se);
+                    th.start();
+                    threads.add(th);
 
-                visualizers.add(new SimulationVisualizer());
-                SimulationEngine se = new SimulationEngine(visualizers.get(visualizers.size() - 1),
-                        engines.size() - 1,  Integer.parseInt(mapHeightField.getText()));
-                Thread th = new Thread(se);
-                th.start();
+
+                } catch (NullPointerException e){
+                    message.setText("There are empty values! Simulation cannot run!");
+                }
+                catch (NumberFormatException e){
+                    message.setText("Invalid value of textBox");
+                } catch (Exception e) {
+                    message.setText(e.getMessage());
+                }
             }
         });
 
@@ -288,7 +312,6 @@ public class App extends Application {
 
             }
         });
-
         readFromFile.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
