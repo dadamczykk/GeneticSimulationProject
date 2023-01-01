@@ -14,7 +14,7 @@ abstract public class AbstractMap {
     int minimalMutations;
     int maximalMutations;
     AbstractGenotype genotype;
-    Behaviour behaviour;
+    BehaviourType behaviour;
 
     Cell[][] grid;
 
