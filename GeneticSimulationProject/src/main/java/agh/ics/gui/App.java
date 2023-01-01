@@ -1,6 +1,7 @@
 package agh.ics.gui;
 
 import agh.ics.ooproject.*;
+import agh.ics.ooproject.AbstractMap;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -21,10 +22,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.nio.file.Files;
+import java.util.*;
 
 public class App extends Application {
     private AbstractMap map;
@@ -266,7 +265,7 @@ public class App extends Application {
             public void handle(ActionEvent event) {
 
                 try { // to całe parsowanie tutaj jest potrzebne, żeby sprawdzać, czy dane wejściowe są poprawne.
-                    List<Integer> arguments = new ArrayList<>(Arrays.asList(worldVersion.getValue().ordinal(),
+                    ArrayList<Integer> arguments = new ArrayList<>(Arrays.asList(worldVersion.getValue().ordinal(),
                             plantsVersion.getValue().ordinal(),
                             mutationVersion.getValue().ordinal(), behaviourVersion.getValue().ordinal(),
                             Integer.parseInt(mapWidthField.getText()), Integer.parseInt(mapHeightField.getText()),
@@ -275,7 +274,8 @@ public class App extends Application {
                             Integer.parseInt(animalFullEnergy.getText()), Integer.parseInt(animalCopulateEnergy.getText()),
                             Integer.parseInt(minChildMutations.getText()), Integer.parseInt(maxChildMutations.getText()),
                             Integer.parseInt(genomeLength.getText())));
-                    saveConfigToFile((ArrayList<Integer>) arguments, outFile.getText());
+                    saveConfigToFile(arguments, outFile.getText());
+                    message.setText("File successfully created");
 
                 } catch (NullPointerException e){
                     message.setText("There are empty values! File will not be saved");
@@ -285,20 +285,39 @@ public class App extends Application {
                 } catch (Exception e){
                     message.setText(e.getMessage());
                 }
+
             }
         });
 
         readFromFile.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                File myf = new File("src\\t.csv");
+
                 try {
-                    Scanner myScan = new Scanner(myf);
-                    while(myScan.hasNextLine()){
-                        System.out.println(myScan.nextLine());
-                    }
+                    HashMap <Integer, Integer> filling = readFile(sourceFile.getText());
+                    worldVersion.setValue(WorldTypes.values()[filling.get(0)]);
+                    plantsVersion.setValue(PlantType.values()[filling.get(1)]);
+                    mutationVersion.setValue(MutationType.values()[filling.get(2)]);
+                    behaviourVersion.setValue(BehaviourType.values()[filling.get(3)]);
+                    mapWidthField.setText(filling.get(4).toString());
+                    mapHeightField.setText(filling.get(5).toString());
+                    plantsOnStart.setText(filling.get(6).toString());
+                    animalsOnStart.setText(filling.get(7).toString());
+                    plantEnergy.setText(filling.get(8).toString());
+                    animalsEnergy.setText(filling.get(9).toString());
+                    animalFullEnergy.setText(filling.get(10).toString());
+                    animalCopulateEnergy.setText(filling.get(11).toString());
+                    minChildMutations.setText(filling.get(12).toString());
+                    maxChildMutations.setText(filling.get(13).toString());
+                    genomeLength.setText(filling.get(14).toString());
+                    message.setText("Successfully red input file");
                 } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
+                    message.setText("File with given name does not exist");
+                } catch (NullPointerException e){
+                    message.setText("Corrupted input file - some values may not be set properly");
+                }
+                catch (Exception e){
+                    message.setText(e.getMessage() + e.toString());
                 }
 
             }
@@ -321,15 +340,36 @@ public class App extends Application {
 //                                  int mapWidth, int mapHeight, int plantsNo, int animalsNo, int plantsEnergy,
 //                                  int animalsEnergy, int animalFull,  int animalCopul, int minChMut,
 //                                  int maxChMut, int genLength, String filename) throws IOException {
-    private void saveConfigToFile(ArrayList<Integer> args, String filename) throws IOException {
-        FileWriter myWriter = new FileWriter(filename+".csv");
-        myWriter.write("ala ma kota w tym pliku"+".csv\n");
-        for (int i = 0; i < args.size(); i++){
-            myWriter.write(i + ", " + args.get(i).toString() + ";\n");
+
+    private HashMap<Integer, Integer>  readFile(String filename) throws Exception {
+        HashMap<Integer, Integer> out = new HashMap<>();
+        File nf = new File(filename);
+        Scanner scan = new Scanner(nf);
+        try {
+        while (scan.hasNextLine()) {
+            String toParse = scan.nextLine();
+            String[] parts = toParse.split(",");
+            out.put(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+        }
+        } catch (Exception e) {
+            throw new Exception("Corrupted input file");
         }
 
-        myWriter.close();
+        scan.close();
+        return out;
 
+    }
+    private void saveConfigToFile(ArrayList<Integer> args, String filename) throws IOException {
+        File newFile = new File(filename+".csv");
+        if (!newFile.createNewFile()){
+            throw new RuntimeException("File with that name already exists");
+        }
+        FileWriter myWriter = new FileWriter(filename+".csv");
+
+        for (int i = 0; i < args.size(); i++){
+            myWriter.write(i + "," + args.get(i).toString() + "\n");
+        }
+        myWriter.close();
 
     }
 
