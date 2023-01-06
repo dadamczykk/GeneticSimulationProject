@@ -1,11 +1,14 @@
 package agh.ics.ooproject;
 
 import agh.ics.gui.SimulationVisualizer;
+import agh.ics.gui.SimulationVisualizerCSV;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class SimulationEngine implements Runnable {
@@ -13,16 +16,25 @@ public class SimulationEngine implements Runnable {
 
     public int simulationNumber;
 
-    private final SimulationVisualizer simVis;
+    public final SimulationVisualizer simVis;
+
+    public agh.ics.gui.App app;
+
+    public boolean isPaused = false;
 
 
-    public SimulationEngine(int simNo, ArrayList<Integer> args){
+    public SimulationEngine(int simNo, ArrayList<Integer> args, agh.ics.gui.App app) throws IOException {
         this.sleepTimer = 500;
-        this.simVis = new SimulationVisualizer(args, this);
+        if (args.get(15) == 1) {
+            this.simVis = new SimulationVisualizerCSV(args, this);
+        } else{
+            this.simVis = new SimulationVisualizer(args, this);
+        }
         this.simulationNumber = simNo;
+        this.app = app;
     }
 
-    public void run(){
+    public synchronized void run(){
         try {
             this.testRun();
         } catch (InterruptedException e) {
@@ -30,20 +42,43 @@ public class SimulationEngine implements Runnable {
         }
     }
 
-    private void testRun() throws InterruptedException {
+    private synchronized void testRun() throws InterruptedException {
         System.out.println(sleepTimer);
         int i = 1;
         Thread.sleep(sleepTimer);
         while(true){
+            if (isPaused){ wait();}
+
             int finalI = i;
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    simVis.updateScene(finalI);
-                }
-            });
-            Thread.sleep(sleepTimer);
+
+            try {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            simVis.updateScene(finalI);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+                Thread.sleep(sleepTimer);
+            } catch (InterruptedException e){
+                System.out.println("thread stopped");
+                return;
+            }
+
             i++;
         }
     }
+
+
+
+    public synchronized void repause(){
+        if (isPaused) {
+            this.notify();
+            this.isPaused = false;
+        }
+    }
+
 }
