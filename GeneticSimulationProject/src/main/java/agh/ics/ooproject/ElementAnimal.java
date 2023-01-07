@@ -1,18 +1,74 @@
 package agh.ics.ooproject;
 
 public class ElementAnimal extends AbstractElement{
+    int birthdate;
     int energy;
     int sufficientEnergy;
     int consumedEnergy;
-    AbstractGenotype genotype;
+    MutationType mutationType;
     BehaviourType behaviour;
-    public ElementAnimal(Position position, int startingEnergy, int sufficientEnergy,
-                         int consumedEnergy, AbstractGenotype genotype, BehaviourType behaviour){
+    GameMap map;
+    int dir;
+    AbstractGenotype genotype;
+    int genLength;
+    int noChildren;
+    public ElementAnimal(GameMap map, Position position, int birthdate, int startingEnergy, int sufficientEnergy,
+                         int consumedEnergy, MutationType mutationType, int genLength, BehaviourType behaviour){
+        this.birthdate = birthdate;
+        this.map = map;
         this.position = position;
         this.energy = startingEnergy;
         this.sufficientEnergy = sufficientEnergy;
         this.consumedEnergy = consumedEnergy;
-        this.genotype = genotype;
+        this.mutationType = mutationType;
+        switch (this.mutationType){
+            case RANDOM -> this.genotype = new GenotypeRandomMutation(this, genLength);
+            case SLIGHT -> this.genotype = new GenotypeLightMutation(this, genLength);
+        }
         this.behaviour = behaviour;
+        this.dir = (int) Math.floor(Math.random()*8);
+    }
+    public void move(){
+        this.dir = (this.dir + this.genotype.nextMove())%8;
+        Position nextPosition = this.position.addDir(this.dir);
+        if (this.map.type == MapType.Valhalla){
+            switch (this.map.isValidPosition(nextPosition)){
+                case Left, Right -> {
+                    nextPosition = new Position(nextPosition.x % this.map.width, nextPosition.y);
+                }
+                case Up, Down -> {
+                    nextPosition = this.position;
+                    this.dir = (this.dir + 4)%8;
+                }
+                case Corner -> {
+                    nextPosition = new Position(nextPosition.x % this.map.width, this.position.y);
+                    this.dir = (this.dir + 4)%8;
+                }
+                case Inside -> {}
+            }
+        }else{
+            switch (this.map.isValidPosition(nextPosition)){
+                case Left, Right, Up, Down, Corner -> {
+                    nextPosition = new Position((int) Math.floor(Math.random()*this.map.width),
+                            (int) Math.floor(Math.random()*this.map.width));
+                    this.energy = this.energy - consumedEnergy;
+                }
+                case Inside -> {}
+            }
+        }
+        Cell oldCell = this.map.getCellAt(this.position);
+        oldCell.moveElementTo(this, nextPosition);
+    }
+    public ElementAnimal procreateWith(ElementAnimal animal){
+        ElementAnimal newAnimal = new ElementAnimal(this.map, this.position, this.map.day,
+                this.consumedEnergy*2, this.sufficientEnergy, this.consumedEnergy, this.mutationType,
+                this.genLength, this.behaviour);
+        if (this.energy >= animal.energy){
+            newAnimal.genotype.copyFrom(this, animal);
+        }else{
+            newAnimal.genotype.copyFrom(animal, this);
+        }
+        newAnimal.genotype.mutate();
+        return newAnimal;
     }
 }
