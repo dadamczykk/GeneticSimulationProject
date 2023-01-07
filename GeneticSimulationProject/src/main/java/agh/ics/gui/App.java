@@ -4,6 +4,8 @@ import agh.ics.ooproject.*;
 import agh.ics.ooproject.GameMap;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -48,6 +50,8 @@ public class App extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.show();
+        this.stage.setWidth(scene.getWidth()*1.1);
+        this.stage.setHeight(scene.getHeight()*1.1);
 
 //        String val = worldVersion.getValue();
 //        System.out.println(val);
@@ -249,8 +253,18 @@ public class App extends Application {
         iosLogic.setSpacing(3*spacing);
         iosLogic.setAlignment(Pos.CENTER);
 
+//        mapHeightField.textProperty().addListener(new ChangeListener<String>(){
+//            @Override
+//            public void changed(ObservableValue<? extends String> observable, String oldValue,
+//                                String newValue) {
+//                if (!newValue.matches("\\d*")) {
+//                    mapHeightField.setText(newValue.replaceAll("[^\\d]", ""));
+//                }
+//            }
+//        });
 
-        startSim.setOnAction(new EventHandler<ActionEvent>() {
+
+        startSim.setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent event) {
                 try { // to całe parsowanie tutaj jest potrzebne, żeby sprawdzać, czy dane wejściowe są poprawne.
@@ -263,21 +277,17 @@ public class App extends Application {
                             Integer.parseInt(animalFullEnergy.getText()), Integer.parseInt(animalCopulateEnergy.getText()),
                             Integer.parseInt(minChildMutations.getText()), Integer.parseInt(maxChildMutations.getText()),
                             Integer.parseInt(genomeLength.getText()), saveData.isSelected() ? 1 : 0));
-                    if (Integer.parseInt(minChildMutations.getText())>=Integer.parseInt(maxChildMutations.getText())){
-                        throw new Exception("Incorrect min and max value of children mutations");
-                    }
-                    SimulationEngine se = new SimulationEngine(engines.size(), arguments);
-                    engines.add(se);
-                    Thread th = new Thread(se);
-                    th.start();
-                    threads.add(th);
+                    integrityChecker(arguments);
+//                    if (Integer.parseInt(minChildMutations.getText()) >= Integer.parseInt(maxChildMutations.getText())) {
+//                        throw new Exception("Incorrect min and max value of children mutations");
+//                    }
+                    startNew(arguments);
 
 
-                } catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     message.setText("There are empty values! Simulation cannot run!");
-                }
-                catch (NumberFormatException e){
-                    message.setText("Invalid value of textBox");
+                } catch (NumberFormatException e) {
+                    message.setText("Invalid value of textBox, there might be letters\n or integer value is too big");
                 } catch (Exception e) {
                     message.setText(e.getMessage());
                 }
@@ -298,7 +308,9 @@ public class App extends Application {
                             Integer.parseInt(animalFullEnergy.getText()), Integer.parseInt(animalCopulateEnergy.getText()),
                             Integer.parseInt(minChildMutations.getText()), Integer.parseInt(maxChildMutations.getText()),
                             Integer.parseInt(genomeLength.getText())));
+                    integrityChecker(arguments);
                     saveConfigToFile(arguments, outFile.getText());
+
                     message.setText("File successfully created");
 
                 } catch (NullPointerException e){
@@ -340,7 +352,7 @@ public class App extends Application {
                     message.setText("Corrupted input file - some values may not be set properly");
                 }
                 catch (Exception e){
-                    message.setText(e.getMessage() + e.toString());
+                    message.setText(e.getMessage() + e);
                 }
 
             }
@@ -394,6 +406,58 @@ public class App extends Application {
         }
         myWriter.close();
 
+    }
+
+    private void integrityChecker(ArrayList<Integer> args) throws Exception{
+        for (int i = 0; i < 4; i++){
+            if (args.get(i) < 0 || args.get(i) > 1){
+                throw new Exception("Slider values must be 0 or 1");
+            }
+        }
+        if (args.get(4) < 1 || args.get(4) > 100){
+            throw new Exception("Map width and height must be from interval [1, 100]");
+        }
+        if (args.get(5) < 1 || args.get(5) > 100){
+            throw new Exception("Map width and height must be from interval [1, 100]");
+        }
+        if (args.get(6) > args.get(4) * args.get(5)){
+            throw new Exception("There cannot be more plants than tiles on the map");
+        }
+        if (args.get(6) < 0){
+            throw new Exception("Negative number of plants is incorrect");
+        }
+        if (args.get(7) < 1){
+            throw new Exception("Non positive number of animals");
+        }
+        if (args.get(8) < 0){
+            throw new Exception("Negative energy from plant value is incorrect");
+        }
+        if (args.get(9) < 1){
+            throw new Exception("None positive animal energy value is incorrect");
+        }
+        if (args.get(10) < 1 || args.get(11) < 1){
+            throw new Exception("None positive animal energy value is incorrect");
+        }
+        if (args.get(12) * args.get(13) < 0){
+            throw new Exception("Child mutations cannot be negative");
+        }
+        if (args.get(12) >= args.get(13)){
+            throw new Exception("Incorrect min and max value of children mutations");
+        }
+        if (args.get(14) <= 0){
+            throw new Exception("Genome length has to be positive");
+        }
+
+    }
+    private void startNew(ArrayList<Integer> arguments) throws IOException {
+        SimulationEngine se = new SimulationEngine(engines.size(), arguments, this);
+        engines.add(se);
+        Thread th = new Thread(se);
+        th.start();
+        threads.add(th);
+    }
+    public void pauseThread(int no) throws InterruptedException {
+        this.threads.get(no).wait();
     }
 
 }
