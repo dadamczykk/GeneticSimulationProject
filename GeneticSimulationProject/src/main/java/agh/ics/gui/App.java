@@ -1,7 +1,7 @@
 package agh.ics.gui;
 
 import agh.ics.ooproject.*;
-import agh.ics.ooproject.AbstractMap;
+import agh.ics.ooproject.GameMap;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -26,7 +26,7 @@ import java.nio.file.Files;
 import java.util.*;
 
 public class App extends Application {
-    private AbstractMap map;
+    private GameMap map;
     private Stage stage;
 
     public ArrayList<Thread> threads = new ArrayList<>();
