@@ -31,6 +31,7 @@ public class SimulationEngine implements Runnable {
             this.simVis = new SimulationVisualizer(args, this);
         }
         this.simulationNumber = simNo;
+        simVis.updateScene(0);
         this.app = app;
     }
 

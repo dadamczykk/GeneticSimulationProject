@@ -29,7 +29,6 @@ import java.util.*;
 
 public class App extends Application {
     private AbstractMap map;
-    private Stage stage;
 
     public ArrayList<Thread> threads = new ArrayList<>();
 
@@ -44,14 +43,13 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        this.stage = primaryStage;
 
         Scene scene = this.createStartScreen();
 
         primaryStage.setScene(scene);
         primaryStage.show();
-        this.stage.setWidth(scene.getWidth()*1.1);
-        this.stage.setHeight(scene.getHeight()*1.1);
+        primaryStage.setWidth(scene.getWidth()*1.1);
+        primaryStage.setHeight(scene.getHeight()*1.1);
 
 //        String val = worldVersion.getValue();
 //        System.out.println(val);
@@ -321,7 +319,6 @@ public class App extends Application {
                 } catch (Exception e){
                     message.setText(e.getMessage());
                 }
-
             }
         });
         readFromFile.setOnAction(new EventHandler<ActionEvent>() {
@@ -371,10 +368,6 @@ public class App extends Application {
 
 
     }
-//    private void saveConfigToFile(int worldVer, int plantVer, int mutationVer, int behaviourVer,
-//                                  int mapWidth, int mapHeight, int plantsNo, int animalsNo, int plantsEnergy,
-//                                  int animalsEnergy, int animalFull,  int animalCopul, int minChMut,
-//                                  int maxChMut, int genLength, String filename) throws IOException {
 
     private HashMap<Integer, Integer>  readFile(String filename) throws Exception {
         HashMap<Integer, Integer> out = new HashMap<>();
