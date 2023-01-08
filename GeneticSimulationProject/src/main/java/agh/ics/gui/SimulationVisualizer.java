@@ -209,9 +209,12 @@ public class SimulationVisualizer {
     private Color lerpRGB(int maxVal, int currVal){
         float t = Math.min((float)currVal, (float)maxVal) / (float) maxVal;
 
-        return Color.rgb((int) (minR + (maxR - minR) * t),
-                            (int) (minG + (maxG - minG) * t),
-                            (int) (minB + (maxB - minB) * t));
+//        return Color.rgb((int) (minR + (maxR - minR) * t),
+//                            (int) (minG + (maxG - minG) * t),
+//                            (int) (minB + (maxB - minB) * t));
+        return Color.rgb(2,
+                2,
+                2);
     }
 
     private void changeOnFocusAnimal(int x, int y){

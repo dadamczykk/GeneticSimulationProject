@@ -39,14 +39,14 @@ public class ElementAnimal extends AbstractElement{
         Position nextPosition = this.position.addDir(this.dir);
         switch (this.map.isValidPosition(nextPosition)){
             case Left, Right -> {
-                nextPosition = new Position(nextPosition.x % this.map.width, nextPosition.y);
+                nextPosition = new Position((nextPosition.x + this.map.width) % this.map.width, nextPosition.y);
             }
             case Up, Down -> {
                 nextPosition = this.position;
                 this.dir = (this.dir + 4)%8;
             }
             case Corner -> {
-                nextPosition = new Position(nextPosition.x % this.map.width, this.position.y);
+                nextPosition = new Position((nextPosition.x + this.map.width) % this.map.width, this.position.y);
                 this.dir = (this.dir + 4)%8;
             }
             case Inside -> {}

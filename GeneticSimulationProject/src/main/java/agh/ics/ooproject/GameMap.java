@@ -51,7 +51,7 @@ public class GameMap {
         this.grid = new Cell[height][width];
         for (int i = 0; i < height; i++){
             for (int j = 0; j < width; j++){
-                this.grid[i][j] = new Cell(this, new Position(i, j));
+                this.grid[i][j] = new Cell(this, new Position(j, i));
             }
         }
         this.initializeAnimals();
@@ -98,13 +98,13 @@ public class GameMap {
         if (position.x < this.width && position.x > 0 && position.y < this.height && position.y > 0){
             return Border.Inside;
         }
-        if (position.x > this.width && position.y < this.height && position.y > 0){
+        if (position.x >= this.width && position.y < this.height && position.y > 0){
             return Border.Right;
         }
         if (position.x < 0 && position.y < this.height && position.y > 0){
             return Border.Left;
         }
-        if (position.x < this.width && position.x > 0 && position.y > this.height){
+        if (position.x < this.width && position.x > 0 && position.y >= this.height){
             return Border.Up;
         }
         if (position.x < this.width && position.x > 0 && position.y < 0){
@@ -113,15 +113,25 @@ public class GameMap {
         return Border.Corner;
     }
     public void updateAnimalPositions(){
-        ElementAnimal animal;
+        List<ElementAnimal> toMove;
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
-                for (int k = 0; k < this.grid[i][j].animals.size(); k++) {
-                    animal = this.grid[i][j].animals.get(k);
-                    animal.move();
+                toMove = new ArrayList<>(this.grid[i][j].animals);
+                for (ElementAnimal element : toMove) {
+                    element.move();
                 }
             }
         }
+//        ElementAnimal animal;
+//
+//        for (int i = 0; i < this.height; i++) {
+//            for (int j = 0; j < this.width; j++) {
+//                for (int k = 0; k < this.grid[i][j].animals.size(); k++) {
+//                    animal = this.grid[i][j].animals.get(k);
+//                    animal.move();
+//                }
+//            }
+//        }
     }
     public void consumption(){
         for (int i = 0; i < this.height; i++) {
