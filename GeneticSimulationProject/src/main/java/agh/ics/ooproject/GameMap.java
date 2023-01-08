@@ -117,7 +117,7 @@ public class GameMap {
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
                 for (int k = 0; k < this.grid[i][j].animals.size(); k++) {
-                    animal = (ElementAnimal) this.grid[i][j].animals.get(k);
+                    animal = this.grid[i][j].animals.get(k);
                     animal.move();
                 }
             }

@@ -66,9 +66,11 @@ public class Cell {
             i = i/2;
             ElementAnimal newAnimal;
             for (int j = 0; j < i; j++) {
-                newAnimal = animals.get(i).procreateWith(animals.get(i+1));
-                animals.add(newAnimal);
-                this.map.animals.add(newAnimal);
+                if (animals.get(i).alive && animals.get(i+1).alive){
+                    newAnimal = animals.get(i).procreateWith(animals.get(i+1));
+                    animals.add(newAnimal);
+                    this.map.animals.add(newAnimal);
+                }
             }
         }
     }

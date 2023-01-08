@@ -27,8 +27,14 @@ public class ElementAnimal extends AbstractElement{
         }
         this.behaviour = behaviour;
         this.dir = (int) Math.floor(Math.random()*8);
+        this.alive = true;
     }
     public void move(){
+        this.energy--;
+        if (this.energy < 0){
+            this.alive = false;
+        }
+
         this.dir = (this.dir + this.genotype.nextMove())%8;
         Position nextPosition = this.position.addDir(this.dir);
         if (this.map.type == MapType.Valhalla){
