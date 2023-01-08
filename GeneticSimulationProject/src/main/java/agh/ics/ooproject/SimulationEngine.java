@@ -19,7 +19,7 @@ public class SimulationEngine implements Runnable {
 
     public agh.ics.gui.App app;
 
-    private GameMap map;
+    public GameMap map;
 
     private GameEngine gameEngine;
 
