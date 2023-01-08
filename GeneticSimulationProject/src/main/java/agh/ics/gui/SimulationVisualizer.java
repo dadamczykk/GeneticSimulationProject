@@ -1,27 +1,18 @@
 package agh.ics.gui;
 
 import agh.ics.ooproject.*;
-import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -183,8 +174,8 @@ public class SimulationVisualizer {
 
     public void updateScene() throws IOException {
         Comparator<ElementAnimal> win = Comparator.comparingInt((ElementAnimal x) -> -x.energy);
-        engine.map.animals.sort(win);
-        int maxEnergy = engine.map.animals.get(0).energy; // engine.map.sufficientEnergy
+        engine.map.aliveAnimals.sort(win);
+        int maxEnergy = engine.map.aliveAnimals.get(0).energy; // engine.map.sufficientEnergy
         for (int x = 0; x < initArgs.get(4); x++){
             for (int y = 0; y < initArgs.get(5); y++){
                 rectTable[y][x].setFill(Color.BLANCHEDALMOND);

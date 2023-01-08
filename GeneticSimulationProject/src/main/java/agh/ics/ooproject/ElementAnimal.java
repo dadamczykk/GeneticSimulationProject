@@ -88,6 +88,8 @@ public class ElementAnimal extends AbstractElement{
         }else{
             newAnimal.genotype.copyFrom(animal, this);
         }
+        this.energy = this.energy - this.consumedEnergy;
+        animal.energy = animal.energy - animal.consumedEnergy;
         newAnimal.genotype.mutate();
         return newAnimal;
     }

@@ -22,7 +22,8 @@ public class GameMap {
     MutationType mutationType;
     BehaviourType behaviour;
     public Cell[][] grid;
-    public List<ElementAnimal> animals = new ArrayList<>();
+    public List<ElementAnimal> aliveAnimals = new ArrayList<>();
+    public List<ElementAnimal> deadAnimals = new ArrayList<>();
     int day;
 
     public GameMap(MapType type, int width, int height, int noPlants, int plantEnergy, int noNewPlants,
@@ -72,7 +73,7 @@ public class GameMap {
             animal = new ElementAnimal(this, new Position(randomX, randomY), 0,
                     this.startingEnergy, this.sufficientEnergy, this.consumedEnergy, this.mutationType, this.genLength, this.behaviour);
             this.grid[randomY][randomX].addElement(animal);
-            this.animals.add(animal);
+            this.aliveAnimals.add(animal);
         }
     }
     public void initializeGrass(){
@@ -92,11 +93,14 @@ public class GameMap {
                         animal.alive = false;
                     }
                     if(!animal.alive){
+
                         toDelete.add(animal);
                     }
                 }
                 for (ElementAnimal element : toDelete) {
                     element.dayOfDeath = day;
+                    this.deadAnimals.add(element);
+                    this.aliveAnimals.remove(element);
                     this.grid[i][j].removeElement(element);
                 }
             }

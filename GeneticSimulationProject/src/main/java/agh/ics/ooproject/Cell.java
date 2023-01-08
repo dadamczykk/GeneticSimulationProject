@@ -62,16 +62,15 @@ public class Cell {
             int i = 0;
             while ( i < animals.size() && animals.get(i).energy >= map.sufficientEnergy){
                 i++;
-
             }
-            i--;
+            i++;
             i = i/2;
             ElementAnimal newAnimal;
             for (int j = 0; j < i; j++) {
                 if (animals.get(i).alive && animals.get(i+1).alive){
                     newAnimal = animals.get(i).procreateWith(animals.get(i+1));
                     animals.add(newAnimal);
-                    this.map.animals.add(newAnimal);
+                    this.map.aliveAnimals.add(newAnimal);
                 }
             }
         }
