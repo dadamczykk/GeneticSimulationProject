@@ -60,15 +60,17 @@ public class Cell {
                     thenComparingInt((ElementAnimal x) -> x.noChildren);
             this.animals.sort(win);
             int i = 0;
-            while ( i < animals.size() && animals.get(i).energy >= map.sufficientEnergy){
+            int noParents = 0;
+            while (i < animals.size()){
+                if (animals.get(i).energy >= map.sufficientEnergy){
+                    noParents++;
+                }
                 i++;
             }
-            i--;
+            noParents = noParents - noParents%2;
 
-            i = i/2;
-            i++;
             ElementAnimal newAnimal;
-            for (int j = 0; j < i; j++) {
+            for (int j = 0; j < noParents; j+=2) {
                 if (animals.get(j).alive && animals.get(j+1).alive){
                     newAnimal = animals.get(j).procreateWith(animals.get(j+1));
                     animals.add(newAnimal);
