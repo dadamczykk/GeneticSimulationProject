@@ -185,8 +185,17 @@ public class SimulationVisualizer {
          avgEnergy = 0;
          avgTol = 0;
         Comparator<ElementAnimal> win = Comparator.comparingInt((ElementAnimal x) -> -x.energy);
-        engine.map.aliveAnimals.sort(win);
-        int maxEnergy = engine.map.aliveAnimals.get(0).energy; // engine.map.sufficientEnergy
+
+        int maxEnergy =  engine.map.sufficientEnergy;
+        if (engine.map.aliveAnimals.size() > 0) {
+            engine.map.aliveAnimals.sort(win);
+            engine.map.deadAnimals.sort(win);
+
+            maxEnergy = engine.map.aliveAnimals.get(0).energy; //
+            if (engine.map.deadAnimals.size() > 0) {
+                maxEnergy = Math.max(maxEnergy, engine.map.deadAnimals.get(0).energy);
+            }
+        }
         for (int x = 0; x < initArgs.get(4); x++){
             for (int y = 0; y < initArgs.get(5); y++){
                 rectTable[y][x].setFill(Color.BLANCHEDALMOND);
@@ -194,17 +203,19 @@ public class SimulationVisualizer {
                 if (engine.map.grid[y][x].hasGrass){
                     rectTable[y][x].setFill(plantColor);
                     noPlants++;
-                }else if (engine.map.grid[y][x].animals.size() > 0){
+                }
+                if (engine.map.grid[y][x].animals.size() > 0){
                     rectTable[y][x].setFill(lerpRGB(maxEnergy, engine.map.grid[y][x].animals.get(0).energy));
                     noAnimals = noAnimals + engine.map.grid[y][x].animals.size();
-                }else{
+                }
+                if (!engine.map.grid[y][x].hasGrass && engine.map.grid[y][x].animals.size() == 0){
                     noEmpty++;
                 }
+
 
             }
         }
 
-//        for
         this.updateFullStats();
         this.updateIndStats();
     }
@@ -247,6 +258,7 @@ public class SimulationVisualizer {
                     day - followedOne.birthdate : followedOne.dayOfDeath - followedOne.birthdate));
             this.indStatsLabels.get(6).setText(Integer.toString(followedOne.dayOfDeath));
             }
+
     }
     private void highlightBest(){
         // idk idk

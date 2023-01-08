@@ -54,7 +54,6 @@ public class Cell {
         }
     }
     public void procreate(){
-        System.out.println("weszlko");
         if (this.animals.size() >= 2){
             Comparator<ElementAnimal> win = Comparator.comparingInt((ElementAnimal x) -> -x.energy).
                     thenComparingInt((ElementAnimal x) -> x.birthdate).
@@ -68,7 +67,6 @@ public class Cell {
 
             i = i/2;
             i++;
-            System.out.println(i);
             ElementAnimal newAnimal;
             for (int j = 0; j < i; j++) {
                 if (animals.get(j).alive && animals.get(j+1).alive){
