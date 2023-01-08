@@ -102,22 +102,23 @@ public class GameMap {
         }
     }
     public Border isValidPosition(Position position){
-        if (position.x < this.width && position.x > 0 && position.y < this.height && position.y > 0){
+        if (position.x < this.width && position.x >= 0 && position.y < this.height && position.y >= 0){
             return Border.Inside;
         }
-        if (position.x >= this.width && position.y < this.height && position.y > 0){
+        if (position.x < 0 && position.y < 0 || position.x >= this.width && position.y < 0 ||
+                position.x < 0 && position.y >= this.height || position.x >= this.width && position.y >= this.height){
+            return Border.Corner;
+        }
+        if (position.x >= this.width){
             return Border.Right;
         }
-        if (position.x < 0 && position.y < this.height && position.y > 0){
+        if (position.x < 0){
             return Border.Left;
         }
-        if (position.x < this.width && position.x > 0 && position.y >= this.height){
+        if (position.y >= this.height){
             return Border.Up;
         }
-        if (position.x < this.width && position.x > 0 && position.y < 0){
-            return Border.Down;
-        }
-        return Border.Corner;
+        return Border.Down;
     }
     public void updateAnimalPositions(){
         List<ElementAnimal> toMove = new ArrayList<>();
