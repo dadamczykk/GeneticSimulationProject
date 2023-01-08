@@ -19,7 +19,7 @@ public class SimulationVisualizerCSV extends SimulationVisualizer{
         String filename = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss'.csv'").format(new Date());
         this.out = new File(filename);
         if (!this.out.createNewFile()){
-            throw new IOException("Unable to create log file");
+            throw new IOException("Unable to create a log file");
         }
         FileWriter writer = new FileWriter(this.out, true);
         writer.write("Day_of_simulation,Number_of_animals,Number_of_plants," +

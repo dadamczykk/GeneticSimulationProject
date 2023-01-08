@@ -76,7 +76,7 @@ public class App extends Application {
         ComboBox<PlantType> plantsVersion = new ComboBox<>(plantsVersions);
         plantsVersion.setMinHeight(minHeight);
         plantsVersion.setMinWidth(minWidth);
-        Label plantsStr = new Label("Choose plant's spawning system\t");
+        Label plantsStr = new Label("Choose plants' spawning system\t");
         plantsStr.setMinWidth(minWidth);
         plantsStr.setMinHeight(minHeight);
         plantsStr.setTextAlignment(TextAlignment.CENTER);
@@ -90,7 +90,7 @@ public class App extends Application {
         ComboBox<MutationType> mutationVersion = new ComboBox<>(mutationVersions);
         mutationVersion.setMinHeight(minHeight);
         mutationVersion.setMinWidth(minWidth);
-        Label mutationStr = new Label("Choose type of mutation randomness\t");
+        Label mutationStr = new Label("Choose the type of mutation randomness\t");
         mutationStr.setMinWidth(minWidth);
         mutationStr.setMinHeight(minHeight);
         mutationStr.setTextAlignment(TextAlignment.CENTER);
@@ -104,7 +104,7 @@ public class App extends Application {
         ComboBox<BehaviourType> behaviourVersion = new ComboBox<>(behaviourVersions);
         behaviourVersion.setMinHeight(minHeight);
         behaviourVersion.setMinWidth(minWidth);
-        Label behaviourStr = new Label("Choose behaviour of animals\t");
+        Label behaviourStr = new Label("Choose the behaviour of animals\t");
         behaviourStr.setMinWidth(minWidth);
         behaviourStr.setMinHeight(minHeight);
         behaviourStr.setTextAlignment(TextAlignment.CENTER);
@@ -159,7 +159,7 @@ public class App extends Application {
         plantsPerDay.setMinHeight(minHeight);
 
         TextField animalsOnStart = new TextField("5");
-        Label animalsOnStartLabel = new Label("Choose initial number of animals");
+        Label animalsOnStartLabel = new Label("Choose the initial number of animals");
         HBox animalsOnStartCont = new HBox(animalsOnStartLabel, animalsOnStart);
         animalsOnStart.setMinWidth(minWidth);
         animalsOnStart.setMinHeight(minHeight);
@@ -167,7 +167,7 @@ public class App extends Application {
         animalsOnStartLabel.setMinHeight(minHeight);
 
         TextField plantEnergy = new TextField("5");
-        Label plantEnergyLabel = new Label("Choose energy given by plants");
+        Label plantEnergyLabel = new Label("Choose the energy given by plants");
         HBox plantEnergyCont = new HBox(plantEnergyLabel, plantEnergy);
         plantEnergyLabel.setMinWidth(minWidth);
         plantEnergyLabel.setMinHeight(minHeight);
@@ -175,7 +175,7 @@ public class App extends Application {
         plantEnergy.setMinHeight(minHeight);
 
         TextField animalsEnergy = new TextField("5");
-        Label animalsEnergyLabel = new Label("Choose initial energy of animals");
+        Label animalsEnergyLabel = new Label("Choose the initial energy of animals");
         HBox animalsEnergyCont = new HBox(animalsEnergyLabel, animalsEnergy);
         animalsEnergyLabel.setMinWidth(minWidth);
         animalsEnergyLabel.setMinHeight(minHeight);
@@ -183,7 +183,7 @@ public class App extends Application {
         animalsEnergy.setMinHeight(minHeight);
 
         TextField animalFullEnergy = new TextField("5");
-        Label animalFullEnergyLabel = new Label("Choose satisfying energy");
+        Label animalFullEnergyLabel = new Label("Choose the satisfying energy");
         HBox animalFullEnergyCont = new HBox(animalFullEnergyLabel, animalFullEnergy);
         animalFullEnergyLabel.setMinWidth(minWidth);
         animalFullEnergyLabel.setMinHeight(minHeight);
@@ -191,7 +191,7 @@ public class App extends Application {
         animalFullEnergy.setMinHeight(minHeight);
 
         TextField animalCopulateEnergy = new TextField("5");
-        Label animalCopulateEnergyLabel = new Label("Choose energy spent on a child");
+        Label animalCopulateEnergyLabel = new Label("Choose the energy spent on a child");
         HBox animalCopulateEnergyCont = new HBox(animalCopulateEnergyLabel, animalCopulateEnergy);
         animalCopulateEnergyLabel.setMinWidth(minWidth);
         animalCopulateEnergyLabel.setMinHeight(minHeight);
@@ -199,7 +199,7 @@ public class App extends Application {
         animalCopulateEnergy.setMinHeight(minHeight);
 
         TextField minChildMutations = new TextField("2");
-        Label minChildMutationsLabel = new Label("Choose minimum mutations of a genome");
+        Label minChildMutationsLabel = new Label("Choose the minimum mutations of a genome");
         HBox minChildMutationsCont = new HBox(minChildMutationsLabel, minChildMutations);
         minChildMutationsLabel.setMinWidth(minWidth);
         minChildMutationsLabel.setMinHeight(minHeight);
@@ -207,7 +207,7 @@ public class App extends Application {
         minChildMutations.setMinHeight(minHeight);
 
         TextField maxChildMutations = new TextField("5");
-        Label maxChildMutationsLabel = new Label("Choose maximum mutations of a genome");
+        Label maxChildMutationsLabel = new Label("Choose the maximum mutations of a genome");
         HBox maxChildMutationsCont = new HBox(maxChildMutationsLabel, maxChildMutations);
         maxChildMutationsLabel.setMinWidth(minWidth);
         maxChildMutationsLabel.setMinHeight(minHeight);
@@ -215,7 +215,7 @@ public class App extends Application {
         maxChildMutations.setMinHeight(minHeight);
 
         TextField genomeLength = new TextField("4");
-        Label genomeLengthLabel = new Label("Choose length of a genome");
+        Label genomeLengthLabel = new Label("Choose the length of a genome");
         HBox genomeLengthCont = new HBox(genomeLengthLabel, genomeLength);
         genomeLengthLabel.setMinWidth(minWidth);
         genomeLengthLabel.setMinHeight(minHeight);
@@ -241,17 +241,17 @@ public class App extends Application {
 
         TextField sourceFile = new TextField("Write a name of a source file");
 
-        Button readFromFile = new Button("Read configuration from a source file");
+        Button readFromFile = new Button("Read a configuration from a source file");
 
         TextField outFile = new TextField("Write a name of a new file");
 
-        Button writeToFile = new Button("Write configuration to a file");
+        Button writeToFile = new Button("Write a configuration to a file");
 
         Label message = new Label("");
 
-        Button startSim = new Button("Start simulation");
+        Button startSim = new Button("Start the simulation");
 
-        CheckBox saveData = new CheckBox("Save data of animation to csv");
+        CheckBox saveData = new CheckBox("Save data of an animation to a csv");
 
         iosLogic.getChildren().addAll(sourceFile, readFromFile, outFile, writeToFile, message, saveData, startSim);
 
@@ -293,7 +293,7 @@ public class App extends Application {
                 } catch (NullPointerException e) {
                     message.setText("There are empty values! Simulation cannot run!");
                 } catch (NumberFormatException e) {
-                    message.setText("Invalid value of textBox, there might be letters\n or integer value is too big");
+                    message.setText("Invalid value of a textBox, there might be letters\n or integer value is too big");
                 } catch (Exception e) {
                     message.setText(e.getMessage());
                 }
@@ -324,7 +324,7 @@ public class App extends Application {
                     message.setText("There are empty values! File will not be saved");
                 }
                 catch (NumberFormatException e){
-                    message.setText("Invalid value of textBox");
+                    message.setText("Invalid value of a textBox");
                 } catch (Exception e){
                     message.setText(e.getMessage());
                 }
@@ -353,9 +353,9 @@ public class App extends Application {
                     genomeLength.setText(filling.get(14).toString());
                     saveData.setSelected(filling.get(15) == 1);
                     plantsPerDay.setText(filling.get(16).toString());
-                    message.setText("Successfully read input file");
+                    message.setText("Successfully read the input file");
                 } catch (FileNotFoundException e) {
-                    message.setText("File with given name does not exist");
+                    message.setText("File with a given name does not exist");
                 } catch (NullPointerException e){
                     message.setText("Corrupted input file - some values may not be set properly");
                 }
@@ -424,10 +424,10 @@ public class App extends Application {
             }
         }
         if (args.get(4) < 1 || args.get(4) > 100){
-            throw new Exception("Map width and height must be from interval [1, 100]");
+            throw new Exception("Map width and height must be from the interval [1, 100]");
         }
         if (args.get(5) < 1 || args.get(5) > 100){
-            throw new Exception("Map width and height must be from interval [1, 100]");
+            throw new Exception("Map width and height must be from the interval [1, 100]");
         }
         if (args.get(6) > args.get(4) * args.get(5) || args.get(16) > args.get(4) * args.get(5)){
             throw new Exception("There cannot be more plants than tiles on the map");
@@ -439,16 +439,16 @@ public class App extends Application {
             throw new Exception("Non positive number of animals");
         }
         if (args.get(8) < 0){
-            throw new Exception("Negative energy from plant value is incorrect");
+            throw new Exception("Negative energy from plants value is incorrect");
         }
         if (args.get(9) < 1){
-            throw new Exception("None positive animal energy value is incorrect");
+            throw new Exception("Non positive animal energy value is incorrect");
         }
         if (args.get(10) < 1 || args.get(11) < 1){
-            throw new Exception("None positive animal energy value is incorrect");
+            throw new Exception("Non positive animal energy value is incorrect");
         }
         if (args.get(12) * args.get(13) < 0){
-            throw new Exception("Child mutations cannot be negative");
+            throw new Exception("Children mutations cannot be negative");
         }
         if (args.get(12) > args.get(13)){
             throw new Exception("Incorrect min and max value of children mutations");

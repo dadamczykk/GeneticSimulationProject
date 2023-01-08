@@ -42,7 +42,7 @@ abstract public class AbstractGenotype {
             }
             case MADNESS -> {
                 if (Arrays.stream(this.wasUsed).sum() < this.N){
-                    if (Math.random() < 0.2){
+                    if (Math.random() < 0.8){
                         while (this.wasUsed[this.currentGenIdx] != 0){
                             this.currentGenIdx = (this.currentGenIdx + 1)%this.N;
                         }

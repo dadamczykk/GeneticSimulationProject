@@ -71,7 +71,7 @@ public class SimulationVisualizer {
         this.engine = eng;
 
         ArrayList<Label> fullStatsNames = new ArrayList<>();
-        fullStatsNames.add(new Label(" Day of simulation:"));
+        fullStatsNames.add(new Label(" Day of the simulation:"));
         fullStatsNames.add(new Label(" Number of animals:"));
         fullStatsNames.add(new Label(" Number of plants:"));
         fullStatsNames.add(new Label(" Number of empty tiles:"));
@@ -93,7 +93,7 @@ public class SimulationVisualizer {
 
         ArrayList<Label> indStatsNames = new ArrayList<>();
         indStatsNames.add(new Label(" Current genome"));
-        indStatsNames.add(new Label(" Active part of genome"));
+        indStatsNames.add(new Label(" Active part of the genome"));
         indStatsNames.add(new Label(" Energy"));
         indStatsNames.add(new Label(" Plants eaten"));
         indStatsNames.add(new Label(" Children count"));
