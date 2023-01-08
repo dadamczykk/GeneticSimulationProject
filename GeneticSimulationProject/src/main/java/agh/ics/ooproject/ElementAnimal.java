@@ -37,31 +37,39 @@ public class ElementAnimal extends AbstractElement{
 
         this.dir = (this.dir + this.genotype.nextMove())%8;
         Position nextPosition = this.position.addDir(this.dir);
-        if (this.map.type == MapType.Valhalla){
-            switch (this.map.isValidPosition(nextPosition)){
-                case Left, Right -> {
-                    nextPosition = new Position(nextPosition.x % this.map.width, nextPosition.y);
+        switch (this.map.type){
+            case Valhalla -> {
+                switch (this.map.isValidPosition(nextPosition)){
+                    case Left, Right -> {
+                        nextPosition = new Position(nextPosition.x % this.map.width, nextPosition.y);
+                    }
+                    case Up, Down -> {
+                        nextPosition = this.position;
+                        this.dir = (this.dir + 4)%8;
+                    }
+                    case Corner -> {
+                        nextPosition = new Position(nextPosition.x % this.map.width, this.position.y);
+                        this.dir = (this.dir + 4)%8;
+                    }
+                    case Inside -> {}
                 }
-                case Up, Down -> {
-                    nextPosition = this.position;
-                    this.dir = (this.dir + 4)%8;
-                }
-                case Corner -> {
-                    nextPosition = new Position(nextPosition.x % this.map.width, this.position.y);
-                    this.dir = (this.dir + 4)%8;
-                }
-                case Inside -> {}
             }
-        }else{
-            switch (this.map.isValidPosition(nextPosition)){
-                case Left, Right, Up, Down, Corner -> {
-                    nextPosition = new Position((int) Math.floor(Math.random()*this.map.width),
-                            (int) Math.floor(Math.random()*this.map.width));
-                    this.energy = this.energy - consumedEnergy;
+            case Hel -> {
+                switch (this.map.isValidPosition(nextPosition)){
+                    case Left, Right, Up, Down, Corner -> {
+                        nextPosition = new Position((int) Math.floor(Math.random()*this.map.width),
+                                (int) Math.floor(Math.random()*this.map.width));
+                        this.energy = this.energy - consumedEnergy;
+                    }
+                    case Inside -> {}
                 }
-                case Inside -> {}
             }
         }
+//        if (this.map.type == MapType.Valhalla){
+//
+//        }else{
+//
+//        }
         Cell oldCell = this.map.getCellAt(this.position);
         oldCell.moveElementTo(this, nextPosition);
     }

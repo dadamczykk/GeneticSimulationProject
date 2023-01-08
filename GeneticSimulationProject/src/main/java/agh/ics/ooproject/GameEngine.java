@@ -17,7 +17,7 @@ public class GameEngine {
     }
     public void update(){
         map.deleteDead();
-//        map.updateAnimalPositions();
+        map.updateAnimalPositions();
         map.consumption();
         map.procreation();
         map.plantGenerator.addGrass(map.noNewPlants);
