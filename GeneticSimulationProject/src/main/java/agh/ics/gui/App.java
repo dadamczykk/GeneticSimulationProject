@@ -26,6 +26,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class App extends Application {
     private GameMap map;
@@ -67,11 +68,11 @@ public class App extends Application {
         ComboBox<MapType> worldVersion = new ComboBox<>(worldVersions);
         worldVersion.setMinHeight(minHeight);
         worldVersion.setMinWidth(minWidth);
-        Label worldStr = new Label("Choose your world version:\t");
+        Label worldStr = new Label("Choose your world version\t");
         worldStr.setMinWidth(minWidth);
         worldStr.setMinHeight(minHeight);
         worldStr.setTextAlignment(TextAlignment.CENTER);
-        worldStr.setFont(mainFont);
+//        worldStr.setFont(mainFont);
         HBox worldCont = new HBox(worldStr, worldVersion);
         worldVersion.setValue(MapType.Valhalla);
 
@@ -81,11 +82,11 @@ public class App extends Application {
         ComboBox<PlantType> plantsVersion = new ComboBox<>(plantsVersions);
         plantsVersion.setMinHeight(minHeight);
         plantsVersion.setMinWidth(minWidth);
-        Label plantsStr = new Label("Choose plant's spawning system:\t");
+        Label plantsStr = new Label("Choose plant's spawning system\t");
         plantsStr.setMinWidth(minWidth);
         plantsStr.setMinHeight(minHeight);
         plantsStr.setTextAlignment(TextAlignment.CENTER);
-        plantsStr.setFont(mainFont);
+//        plantsStr.setFont(mainFont);
         HBox plantsCont = new HBox(plantsStr, plantsVersion);
         plantsVersion.setValue(PlantType.EQUATOR);
 
@@ -95,11 +96,11 @@ public class App extends Application {
         ComboBox<MutationType> mutationVersion = new ComboBox<>(mutationVersions);
         mutationVersion.setMinHeight(minHeight);
         mutationVersion.setMinWidth(minWidth);
-        Label mutationStr = new Label("Choose randomness of mutations:\t");
+        Label mutationStr = new Label("Choose type of mutation randomness\t");
         mutationStr.setMinWidth(minWidth);
         mutationStr.setMinHeight(minHeight);
         mutationStr.setTextAlignment(TextAlignment.CENTER);
-        mutationStr.setFont(mainFont);
+//        mutationStr.setFont(mainFont);
         HBox mutationsCont = new HBox(mutationStr, mutationVersion);
         mutationVersion.setValue(MutationType.RANDOM);
 
@@ -109,11 +110,11 @@ public class App extends Application {
         ComboBox<BehaviourType> behaviourVersion = new ComboBox<>(behaviourVersions);
         behaviourVersion.setMinHeight(minHeight);
         behaviourVersion.setMinWidth(minWidth);
-        Label behaviourStr = new Label("Choose behaviour of animals:\t");
+        Label behaviourStr = new Label("Choose behaviour of animals\t");
         behaviourStr.setMinWidth(minWidth);
         behaviourStr.setMinHeight(minHeight);
         behaviourStr.setTextAlignment(TextAlignment.CENTER);
-        behaviourStr.setFont(mainFont);
+//        behaviourStr.setFont(mainFont);
         HBox behaviourCont = new HBox(behaviourStr, behaviourVersion);
         behaviourVersion.setValue(BehaviourType.MADNESS);
 
@@ -132,7 +133,7 @@ public class App extends Application {
         choices.getChildren().addAll(comboBoxes);
 
         TextField mapWidthField = new TextField("10");
-        Label mapWidthLabel = new Label("Choose width of the map:");
+        Label mapWidthLabel = new Label("Choose the width of the map");
         HBox mapWidthCont = new HBox(mapWidthLabel, mapWidthField);
         mapWidthLabel.setMinWidth(minWidth);
         mapWidthLabel.setMinHeight(minHeight);
@@ -140,7 +141,7 @@ public class App extends Application {
         mapWidthField.setMinHeight(minHeight);
 
         TextField mapHeightField = new TextField("15");
-        Label mapHeightLabel = new Label("Choose height of the map:");
+        Label mapHeightLabel = new Label("Choose the height of the map");
         HBox mapHeightCont = new HBox(mapHeightLabel, mapHeightField);
         mapHeightLabel.setMinWidth(minWidth);
         mapHeightLabel.setMinHeight(minHeight);
@@ -156,7 +157,7 @@ public class App extends Application {
         plantsOnStart.setMinHeight(minHeight);
 
         TextField plantsPerDay = new TextField("5");
-        Label plantsPerDayLabel = new Label("Choose how many plants will spawn per day");
+        Label plantsPerDayLabel = new Label("Choose how many plants will spawn every day");
         HBox plantsPerDayCont = new HBox(plantsOnStartLabel, plantsOnStart);
         plantsPerDayLabel.setMinWidth(minWidth);
         plantsPerDayLabel.setMinHeight(minHeight);
@@ -172,7 +173,7 @@ public class App extends Application {
         animalsOnStartLabel.setMinHeight(minHeight);
 
         TextField plantEnergy = new TextField("5");
-        Label plantEnergyLabel = new Label("Choose energy that plant gives");
+        Label plantEnergyLabel = new Label("Choose energy given by plants");
         HBox plantEnergyCont = new HBox(plantEnergyLabel, plantEnergy);
         plantEnergyLabel.setMinWidth(minWidth);
         plantEnergyLabel.setMinHeight(minHeight);
@@ -180,7 +181,7 @@ public class App extends Application {
         plantEnergy.setMinHeight(minHeight);
 
         TextField animalsEnergy = new TextField("5");
-        Label animalsEnergyLabel = new Label("Choose initial energy of animal");
+        Label animalsEnergyLabel = new Label("Choose initial energy of animals");
         HBox animalsEnergyCont = new HBox(animalsEnergyLabel, animalsEnergy);
         animalsEnergyLabel.setMinWidth(minWidth);
         animalsEnergyLabel.setMinHeight(minHeight);
@@ -188,7 +189,7 @@ public class App extends Application {
         animalsEnergy.setMinHeight(minHeight);
 
         TextField animalFullEnergy = new TextField("5");
-        Label animalFullEnergyLabel = new Label("Choose energy to make animal full");
+        Label animalFullEnergyLabel = new Label("Choose satisfying energy");
         HBox animalFullEnergyCont = new HBox(animalFullEnergyLabel, animalFullEnergy);
         animalFullEnergyLabel.setMinWidth(minWidth);
         animalFullEnergyLabel.setMinHeight(minHeight);
@@ -196,7 +197,7 @@ public class App extends Application {
         animalFullEnergy.setMinHeight(minHeight);
 
         TextField animalCopulateEnergy = new TextField("5");
-        Label animalCopulateEnergyLabel = new Label("Choose energy to make new animal");
+        Label animalCopulateEnergyLabel = new Label("Choose energy spent on a child");
         HBox animalCopulateEnergyCont = new HBox(animalCopulateEnergyLabel, animalCopulateEnergy);
         animalCopulateEnergyLabel.setMinWidth(minWidth);
         animalCopulateEnergyLabel.setMinHeight(minHeight);
@@ -204,7 +205,7 @@ public class App extends Application {
         animalCopulateEnergy.setMinHeight(minHeight);
 
         TextField minChildMutations = new TextField("2");
-        Label minChildMutationsLabel = new Label("Choose min mutations of children");
+        Label minChildMutationsLabel = new Label("Choose minimum mutations of a genome");
         HBox minChildMutationsCont = new HBox(minChildMutationsLabel, minChildMutations);
         minChildMutationsLabel.setMinWidth(minWidth);
         minChildMutationsLabel.setMinHeight(minHeight);
@@ -212,15 +213,15 @@ public class App extends Application {
         minChildMutations.setMinHeight(minHeight);
 
         TextField maxChildMutations = new TextField("5");
-        Label maxChildMutationsLabel = new Label("Choose max mutations of children");
+        Label maxChildMutationsLabel = new Label("Choose maximum mutations of a genome");
         HBox maxChildMutationsCont = new HBox(maxChildMutationsLabel, maxChildMutations);
         maxChildMutationsLabel.setMinWidth(minWidth);
         maxChildMutationsLabel.setMinHeight(minHeight);
         maxChildMutations.setMinWidth(minWidth);
         maxChildMutations.setMinHeight(minHeight);
 
-        TextField genomeLength = new TextField("9");
-        Label genomeLengthLabel = new Label("Choose length of genom");
+        TextField genomeLength = new TextField("4");
+        Label genomeLengthLabel = new Label("Choose length of a genome");
         HBox genomeLengthCont = new HBox(genomeLengthLabel, genomeLength);
         genomeLengthLabel.setMinWidth(minWidth);
         genomeLengthLabel.setMinHeight(minHeight);
@@ -244,13 +245,13 @@ public class App extends Application {
 
         VBox iosLogic = new VBox();
 
-        TextField sourceFile = new TextField("Here write name of source file");
+        TextField sourceFile = new TextField("Write a name of a source file");
 
-        Button readFromFile = new Button("Read configuration from source file");
+        Button readFromFile = new Button("Read configuration from a source file");
 
-        TextField outFile = new TextField("Here write name of new file");
+        TextField outFile = new TextField("Write a name of a new file");
 
-        Button writeToFile = new Button("Write configuration to file");
+        Button writeToFile = new Button("Write configuration to a file");
 
         Label message = new Label("");
 
@@ -358,7 +359,7 @@ public class App extends Application {
                     genomeLength.setText(filling.get(14).toString());
                     saveData.setSelected(filling.get(15) == 1);
                     plantsPerDay.setText(filling.get(16).toString());
-                    message.setText("Successfully red input file");
+                    message.setText("Successfully read input file");
                 } catch (FileNotFoundException e) {
                     message.setText("File with given name does not exist");
                 } catch (NullPointerException e){
@@ -386,19 +387,19 @@ public class App extends Application {
     }
 
     private HashMap<Integer, Integer>  readFile(String filename) throws Exception {
+        if (!filename.matches(".*\\.csv$")){
+            filename+= ".csv";
+        }
         HashMap<Integer, Integer> out = new HashMap<>();
         File nf = new File(filename);
-        Scanner scan = new Scanner(nf);
-        try {
-        while (scan.hasNextLine()) {
-            String toParse = scan.nextLine();
-            String[] parts = toParse.split(",");
-            out.put(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
-        }
+        try (Scanner scan = new Scanner(nf)) {
+            while (scan.hasNextLine()) {
+                String toParse = scan.nextLine();
+                String[] parts = toParse.split(",");
+                out.put(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+            }
         } catch (Exception e) {
             throw new Exception("Corrupted input file");
-        } finally {
-            scan.close();
         }
 
 
@@ -406,11 +407,14 @@ public class App extends Application {
 
     }
     private void saveConfigToFile(ArrayList<Integer> args, String filename) throws IOException {
-        File newFile = new File(filename+".csv");
+        if (!filename.matches(".*\\.csv$")){
+            filename+= ".csv";
+        }
+        File newFile = new File(filename);
         if (!newFile.createNewFile()){
             throw new RuntimeException("File with that name already exists");
         }
-        FileWriter myWriter = new FileWriter(filename+".csv");
+        FileWriter myWriter = new FileWriter(filename);
 
         for (int i = 0; i < args.size(); i++){
             myWriter.write(i + "," + args.get(i).toString() + "\n");

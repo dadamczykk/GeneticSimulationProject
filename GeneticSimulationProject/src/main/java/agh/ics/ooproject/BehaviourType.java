@@ -7,7 +7,7 @@ public enum BehaviourType {
     @Override
     public String toString(){
         return switch (this){
-            case PREDESTINATION -> "Predestination";
+            case PREDESTINATION -> "Full predestination";
             case MADNESS -> "Some madness";
         };
     }

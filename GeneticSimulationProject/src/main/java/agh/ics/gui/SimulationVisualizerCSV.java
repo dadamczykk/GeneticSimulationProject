@@ -5,6 +5,7 @@ import agh.ics.ooproject.SimulationEngine;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,16 +30,13 @@ public class SimulationVisualizerCSV extends SimulationVisualizer{
     @Override
     protected void updateFullStats() throws IOException {
         super.updateFullStats();
-//        this.day++;
-//        this.fullStatsLabels.get(0).setText(String.valueOf(this.day));
-//        this.fullStatsLabels.get(1).setText(String.valueOf(0));
-//        this.fullStatsLabels.get(2).setText(String.valueOf(0));
-//        this.fullStatsLabels.get(3).setText(String.valueOf(0));
-//        this.fullStatsLabels.get(4).setText(String.valueOf(0));
-//        this.fullStatsLabels.get(5).setText(String.valueOf(0));
-//        this.fullStatsLabels.get(6).setText(String.valueOf(0));
         FileWriter writer = new FileWriter(this.out, true);
-        writer.write(this.day +","+ this.day * 2+"\n");
+        writer.write(this.day + "," + this.noAnimals + "," + this.noPlants + ","
+                + noEmpty + "," + topGenome.codePoints()
+                .filter(c -> Character.isDigit(c) || c == '[' || c == ']')
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString() + "," + String.format("%.2f", noAnimals != 0 ? (float) allEnergy / noAnimals : 0)
+                 + "," + String.format("%.2f", avgTol) + "\n");
         writer.close();
     }
 }

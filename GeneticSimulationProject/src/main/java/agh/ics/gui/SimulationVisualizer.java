@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class SimulationVisualizer {
@@ -37,8 +38,8 @@ public class SimulationVisualizer {
     int day;
 
     private static final double minR = 255.0 / 255;
-    private static final double minG = 255.0 / 255;
-    private static final double minB = 255.0 / 255;
+    private static final double minG = 160.0 / 255;
+    private static final double minB = 122.0 / 255;
 
     private static final double maxR = 105.0 / 255;
     private static final double maxG = 6.0 / 255;
@@ -56,8 +57,10 @@ public class SimulationVisualizer {
     int noAnimals = 0;
     int noPlants = 0;
     int noEmpty = 0;
-    float allEnergy = 0;
-    float avgTol = 0;
+    double allEnergy = 0;
+    double avgTol = 0;
+
+    String topGenome = "";
 
     public SimulationVisualizer(ArrayList <Integer> args, SimulationEngine eng){
         initArgs = args;
@@ -184,7 +187,9 @@ public class SimulationVisualizer {
          noEmpty = 0;
          allEnergy = 0;
          avgTol = 0;
-        Comparator<ElementAnimal> win = Comparator.comparingInt((ElementAnimal x) -> -x.energy);
+         topGenome = "";
+
+
 
         if (engine.map.deadAnimals.size() != 0) {
             for (ElementAnimal animal : engine.map.deadAnimals) {
@@ -192,22 +197,27 @@ public class SimulationVisualizer {
             }
             avgTol /= (float) engine.map.deadAnimals.size();
         }
-
-
-        int maxEnergy =  engine.map.sufficientEnergy;
-        if (engine.map.aliveAnimals.size() > 0) {
-            engine.map.aliveAnimals.sort(win);
-
-
-            maxEnergy = engine.map.aliveAnimals.get(0).energy; //
-            if (engine.map.deadAnimals.size() > 0) {
-                engine.map.deadAnimals.sort(win);
-                maxEnergy = Math.max(maxEnergy, engine.map.deadAnimals.get(0).energy);
+        HashMap<String, Integer> genomes = new HashMap<String, Integer>();
+        if (engine.map.aliveAnimals.size() != 0) {
+            for (ElementAnimal animal : engine.map.aliveAnimals) {
+                String key = Arrays.toString(animal.genotype.genome);
+                if (genomes.containsKey(key)) {
+                    genomes.put(key, genomes.get(key) + 1);
+                } else {
+                    genomes.put(key, 1);
+                }
             }
+            topGenome = Collections.max(genomes.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
         }
+
+
+
+        int maxEnergy =  Math.max(engine.map.sufficientEnergy, engine.map.maxEnergy);
+
+
         for (int x = 0; x < initArgs.get(4); x++){
             for (int y = 0; y < initArgs.get(5); y++){
-                rectTable[y][x].setFill(Color.BLANCHEDALMOND);
+                rectTable[y][x].setFill(Color.WHITE);
 
                 if (engine.map.grid[y][x].hasGrass){
                     rectTable[y][x].setFill(plantColor);
@@ -223,8 +233,6 @@ public class SimulationVisualizer {
                 if (!engine.map.grid[y][x].hasGrass && engine.map.grid[y][x].animals.size() == 0){
                     noEmpty++;
                 }
-
-
 
             }
         }
@@ -258,9 +266,9 @@ public class SimulationVisualizer {
         this.fullStatsLabels.get(1).setText(String.valueOf(noAnimals));
         this.fullStatsLabels.get(2).setText(String.valueOf(noPlants));
         this.fullStatsLabels.get(3).setText(String.valueOf(noEmpty));
-        this.fullStatsLabels.get(4).setText(String.valueOf(0));
-        this.fullStatsLabels.get(5).setText(String.valueOf(noAnimals != 0 ? (float) allEnergy / noAnimals : 0));
-        this.fullStatsLabels.get(6).setText(String.valueOf(avgTol));
+        this.fullStatsLabels.get(4).setText(topGenome);
+        this.fullStatsLabels.get(5).setText(String.format("%.2f", (noAnimals != 0 ? allEnergy / noAnimals : 0)));
+        this.fullStatsLabels.get(6).setText(String.format("%.2f", avgTol));
     }
 
     protected void updateIndStats(){
@@ -277,7 +285,11 @@ public class SimulationVisualizer {
 
     }
     private void highlightBest(){
-        // idk idk
+        for (ElementAnimal animal : engine.map.aliveAnimals){
+            if(Arrays.toString(animal.genotype.genome).equals(topGenome)){
+                rectTable[animal.position.y][animal.position.x].setFill(Color.HOTPINK);
+            }
+        }
     }
 
 }
