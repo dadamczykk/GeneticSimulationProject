@@ -35,7 +35,7 @@ public class ElementAnimal extends AbstractElement{
         this.genLength = genLength;
         this.noChildren = 0;
         this.plantsEaten = 0;
-        this.dayOfDeath = 0;
+        this.dayOfDeath = -1;
     }
     public void move(){
         if (this.energy <= 0){
@@ -80,6 +80,7 @@ public class ElementAnimal extends AbstractElement{
     public ElementAnimal procreateWith(ElementAnimal animal){
         this.noChildren++;
         animal.noChildren++;
+
         ElementAnimal newAnimal = new ElementAnimal(this.map, this.position, this.map.day,
                 this.consumedEnergy*2, this.sufficientEnergy, this.consumedEnergy, this.mutationType,
                 this.genLength, this.behaviour);
@@ -88,6 +89,8 @@ public class ElementAnimal extends AbstractElement{
         }else{
             newAnimal.genotype.copyFrom(animal, this);
         }
+        this.energy = this.energy - this.consumedEnergy;
+        animal.energy = animal.energy - animal.consumedEnergy;
         newAnimal.genotype.mutate();
         return newAnimal;
     }
