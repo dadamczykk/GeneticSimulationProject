@@ -23,6 +23,5 @@ public class GameEngine {
         map.plantGenerator.addGrass(map.noNewPlants);
         map.setMaxVals();
         map.day++;
-
     }
 }

@@ -85,31 +85,21 @@ public class GameMap {
     }
 
     public void deleteDead(){
-
-        ElementAnimal animal;
         List<ElementAnimal> toDelete = new ArrayList<>();
-        for (int i = 0; i < this.height; i++) {
-            for (int j = 0; j < this.width; j++) {
-                for (int k = 0; k < this.grid[i][j].animals.size(); k++) {
-                    animal = this.grid[i][j].animals.get(k);
-                    animal.energy--;
-                    if (animal.energy < 0){
-                        animal.alive = false;
-                    }
-                    if(!animal.alive){
-
-                        toDelete.add(animal);
-                    }
-                }
-                for (ElementAnimal element : toDelete) {
-
-                    element.dayOfDeath = day + 1;
-
-                    this.deadAnimals.add(element);
-                    this.aliveAnimals.remove(element);
-                    this.grid[i][j].removeElement(element);
-                }
+        for (ElementAnimal aliveAnimal : aliveAnimals) {
+            aliveAnimal.energy--;
+            if (aliveAnimal.energy < 0){
+                aliveAnimal.alive = false;
             }
+            if(!aliveAnimal.alive){
+                toDelete.add(aliveAnimal);
+            }
+        }
+        for (ElementAnimal element : toDelete) {
+            element.dayOfDeath = day + 1;
+            this.deadAnimals.add(element);
+            this.aliveAnimals.remove(element);
+            this.getCellAt(element.position).removeElement(element);
         }
     }
     public Border isValidPosition(Position position){
