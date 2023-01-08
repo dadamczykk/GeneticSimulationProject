@@ -12,6 +12,7 @@ public class GameEngine {
             map.consumption();
             map.procreation();
             map.plantGenerator.addGrass(map.noNewPlants);
+            System.out.println(i);
         }
     }
     public void update(){
@@ -20,5 +21,6 @@ public class GameEngine {
         map.consumption();
         map.procreation();
         map.plantGenerator.addGrass(map.noNewPlants);
+        map.day++;
     }
 }

@@ -33,28 +33,32 @@ public class SimulationEngine implements Runnable {
             this.simVis = new SimulationVisualizer(args, this);
         }
         this.simulationNumber = simNo;
-        simVis.updateScene(0);
+
         this.app = app;
         System.out.println(args);
-        this.map = new GameMap(
-                MapType.values()[args.get(0)],
-                args.get(4),
-                args.get(5),
-                args.get(6),
-                args.get(8),
-                args.get(16),
-                PlantType.values()[args.get(1)],
-                args.get(7),
-                args.get(9),
-                args.get(10),
-                args.get(11),
-                args.get(12),
-                args.get(13),
-                MutationType.values()[args.get(2)],
-                args.get(14),
-                BehaviourType.values()[args.get(3)]
-                );
-//        this.gameEngine = new GameEngine(this.map);
+//        try {
+            this.map = new GameMap(
+                    MapType.values()[args.get(0)],
+                    args.get(4),
+                    args.get(5),
+                    args.get(6),
+                    args.get(8),
+                    args.get(16),
+                    PlantType.values()[args.get(1)],
+                    args.get(7),
+                    args.get(9),
+                    args.get(10),
+                    args.get(11),
+                    args.get(12),
+                    args.get(13),
+                    MutationType.values()[args.get(2)],
+                    args.get(14),
+                    BehaviourType.values()[args.get(3)]
+            );
+            this.gameEngine = new GameEngine(this.map);
+//        } catch (Exception e){
+            System.out.println();
+//        }
     }
 
     public synchronized void run(){
@@ -63,27 +67,22 @@ public class SimulationEngine implements Runnable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+//        gameEngine.run();
     }
 
     private synchronized void testRun() throws InterruptedException {
         int sleepTimer = 1500;
         System.out.println(sleepTimer);
-        int i = 1;
 
         Thread.sleep(sleepTimer);
         while(true){
             if (isPaused){ wait();}
-
-            int finalI = i;
-
-
-
             try {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            simVis.updateScene(finalI);
+                            simVis.updateScene();
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -94,9 +93,7 @@ public class SimulationEngine implements Runnable {
                 System.out.println("thread stopped");
                 return;
             }
-//            this.gameEngine.update();
-
-            i++;
+            this.gameEngine.update();
         }
     }
 

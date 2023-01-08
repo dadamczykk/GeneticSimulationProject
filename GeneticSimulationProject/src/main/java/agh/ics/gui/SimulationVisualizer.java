@@ -170,7 +170,7 @@ public class SimulationVisualizer {
         });
     }
 
-    public void updateScene(int value) throws IOException {
+    public void updateScene() throws IOException {
         for (int x = 0; x < initArgs.get(4); x++){
             for (int y = 0; y < initArgs.get(5); y++){
                 rectTable[y][x].setFill(Color.BLANCHEDALMOND);

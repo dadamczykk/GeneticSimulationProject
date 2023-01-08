@@ -22,7 +22,7 @@ public class GameMap {
     MutationType mutationType;
     BehaviourType behaviour;
     Cell[][] grid;
-    List<ElementAnimal> animals;
+    List<ElementAnimal> animals = new ArrayList<>();
     int day;
 
     public GameMap(MapType type, int width, int height, int noPlants, int plantEnergy, int noNewPlants,
