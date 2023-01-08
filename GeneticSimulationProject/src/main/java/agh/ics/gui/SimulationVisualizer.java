@@ -162,10 +162,10 @@ public class SimulationVisualizer {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                if (eng.isPaused){
-                    eng.repause();
+                if (engine.isPaused){
+                    engine.repause();
                 }
-                eng.app.threads.get(eng.simulationNumber).interrupt();
+                engine.app.threads.get(engine.simulationNumber).interrupt();
             }
         });
     }

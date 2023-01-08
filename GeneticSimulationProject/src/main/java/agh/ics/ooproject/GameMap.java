@@ -26,7 +26,7 @@ public class GameMap {
     int day;
 
     public GameMap(MapType type, int width, int height, int noPlants, int plantEnergy, int noNewPlants,
-                   AbstractPlantGenerator plantGenerator, int noAnimals, int startingEnergy,
+                   PlantType plantGenerator, int noAnimals, int startingEnergy,
                    int sufficientEnergy, int consumedEnergy, int minimalMutations, int maximalMutations,
                    MutationType mutationType, int genLength, BehaviourType behaviour){
         this.type = type;
@@ -35,7 +35,8 @@ public class GameMap {
         this.noPlants = noPlants;
         this.plantEnergy = plantEnergy;
         this.noNewPlants = noNewPlants;
-        this.plantGenerator = plantGenerator;
+        if (plantGenerator == PlantType.EQUATOR){this.plantGenerator = new PlantGeneratorEquator(this);}
+        else {this.plantGenerator = new PlantGeneratorToxic(this);};
         this.noAnimals = noAnimals;
         this.startingEnergy = startingEnergy;
         this.sufficientEnergy = sufficientEnergy;
@@ -53,6 +54,8 @@ public class GameMap {
                 this.grid[i][j] = new Cell(this, new Position(i, j));
             }
         }
+        this.initializeAnimals();
+        this.initializeGrass();
     }
 
     public Cell getCellAt(Position position){

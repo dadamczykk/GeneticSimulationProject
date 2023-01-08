@@ -44,14 +44,13 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        this.stage = primaryStage;
 
         Scene scene = this.createStartScreen();
 
         primaryStage.setScene(scene);
         primaryStage.show();
-        this.stage.setWidth(scene.getWidth()*1.1);
-        this.stage.setHeight(scene.getHeight()*1.1);
+        primaryStage.setWidth(scene.getWidth()*1.1);
+        primaryStage.setHeight(scene.getHeight()*1.1);
 
 //        String val = worldVersion.getValue();
 //        System.out.println(val);
@@ -153,6 +152,14 @@ public class App extends Application {
         plantsOnStart.setMinWidth(minWidth);
         plantsOnStart.setMinHeight(minHeight);
 
+        TextField plantsPerDay = new TextField("5");
+        Label plantsPerDayLabel = new Label("Choose how many plants will spawn per day");
+        HBox plantsPerDayCont = new HBox(plantsOnStartLabel, plantsOnStart);
+        plantsPerDayLabel.setMinWidth(minWidth);
+        plantsPerDayLabel.setMinHeight(minHeight);
+        plantsPerDay.setMinWidth(minWidth);
+        plantsPerDay.setMinHeight(minHeight);
+
         TextField animalsOnStart = new TextField("5");
         Label animalsOnStartLabel = new Label("Choose initial number of animals");
         HBox animalsOnStartCont = new HBox(animalsOnStartLabel, animalsOnStart);
@@ -219,12 +226,12 @@ public class App extends Application {
 
 
 
-        VBox toFillText = new VBox(mapWidthLabel, mapHeightLabel, plantsOnStartLabel, animalsOnStartLabel,
+        VBox toFillText = new VBox(mapWidthLabel, mapHeightLabel, plantsOnStartLabel, plantsPerDayLabel, animalsOnStartLabel,
                 plantEnergyLabel, animalsEnergyLabel, animalFullEnergyLabel, animalCopulateEnergyLabel,
                 minChildMutationsLabel, maxChildMutationsLabel, genomeLengthLabel);
         toFillText.setSpacing(spacing);
 
-        VBox toFillField = new VBox(mapWidthField, mapHeightField, plantsOnStart, animalsOnStart,
+        VBox toFillField = new VBox(mapWidthField, mapHeightField, plantsOnStart, plantsPerDay, animalsOnStart,
                 plantEnergy, animalsEnergy, animalFullEnergy, animalCopulateEnergy,
                 minChildMutations, maxChildMutations, genomeLength);
         toFillField.setSpacing(spacing);
@@ -276,7 +283,8 @@ public class App extends Application {
                             Integer.parseInt(plantEnergy.getText()), Integer.parseInt(animalsEnergy.getText()),
                             Integer.parseInt(animalFullEnergy.getText()), Integer.parseInt(animalCopulateEnergy.getText()),
                             Integer.parseInt(minChildMutations.getText()), Integer.parseInt(maxChildMutations.getText()),
-                            Integer.parseInt(genomeLength.getText()), saveData.isSelected() ? 1 : 0));
+                            Integer.parseInt(genomeLength.getText()), saveData.isSelected() ? 1 : 0,
+                            Integer.parseInt(plantsPerDay.getText())));
                     integrityChecker(arguments);
 //                    if (Integer.parseInt(minChildMutations.getText()) >= Integer.parseInt(maxChildMutations.getText())) {
 //                        throw new Exception("Incorrect min and max value of children mutations");
@@ -307,7 +315,8 @@ public class App extends Application {
                             Integer.parseInt(plantEnergy.getText()), Integer.parseInt(animalsEnergy.getText()),
                             Integer.parseInt(animalFullEnergy.getText()), Integer.parseInt(animalCopulateEnergy.getText()),
                             Integer.parseInt(minChildMutations.getText()), Integer.parseInt(maxChildMutations.getText()),
-                            Integer.parseInt(genomeLength.getText())));
+                            Integer.parseInt(genomeLength.getText()), saveData.isSelected() ? 1 : 0,
+                            Integer.parseInt(plantsPerDay.getText())));
                     integrityChecker(arguments);
                     saveConfigToFile(arguments, outFile.getText());
 
@@ -321,7 +330,6 @@ public class App extends Application {
                 } catch (Exception e){
                     message.setText(e.getMessage());
                 }
-
             }
         });
         readFromFile.setOnAction(new EventHandler<ActionEvent>() {
@@ -345,6 +353,8 @@ public class App extends Application {
                     minChildMutations.setText(filling.get(12).toString());
                     maxChildMutations.setText(filling.get(13).toString());
                     genomeLength.setText(filling.get(14).toString());
+                    saveData.setSelected(filling.get(15) == 1);
+                    plantsPerDay.setText(filling.get(16).toString());
                     message.setText("Successfully red input file");
                 } catch (FileNotFoundException e) {
                     message.setText("File with given name does not exist");
@@ -371,10 +381,6 @@ public class App extends Application {
 
 
     }
-//    private void saveConfigToFile(int worldVer, int plantVer, int mutationVer, int behaviourVer,
-//                                  int mapWidth, int mapHeight, int plantsNo, int animalsNo, int plantsEnergy,
-//                                  int animalsEnergy, int animalFull,  int animalCopul, int minChMut,
-//                                  int maxChMut, int genLength, String filename) throws IOException {
 
     private HashMap<Integer, Integer>  readFile(String filename) throws Exception {
         HashMap<Integer, Integer> out = new HashMap<>();
@@ -388,9 +394,11 @@ public class App extends Application {
         }
         } catch (Exception e) {
             throw new Exception("Corrupted input file");
+        } finally {
+            scan.close();
         }
 
-        scan.close();
+
         return out;
 
     }
@@ -420,10 +428,10 @@ public class App extends Application {
         if (args.get(5) < 1 || args.get(5) > 100){
             throw new Exception("Map width and height must be from interval [1, 100]");
         }
-        if (args.get(6) > args.get(4) * args.get(5)){
+        if (args.get(6) > args.get(4) * args.get(5) || args.get(16) > args.get(4) * args.get(5)){
             throw new Exception("There cannot be more plants than tiles on the map");
         }
-        if (args.get(6) < 0){
+        if (args.get(6) < 0 || args.get(16) < 0){
             throw new Exception("Negative number of plants is incorrect");
         }
         if (args.get(7) < 1){
@@ -447,6 +455,7 @@ public class App extends Application {
         if (args.get(14) <= 0){
             throw new Exception("Genome length has to be positive");
         }
+
 
     }
     private void startNew(ArrayList<Integer> arguments) throws IOException {

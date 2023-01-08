@@ -14,4 +14,11 @@ public class GameEngine {
             map.plantGenerator.addGrass(map.noNewPlants);
         }
     }
+    public void update(){
+        map.deleteDead();
+        map.updateAnimalPositions();
+        map.consumption();
+        map.procreation();
+        map.plantGenerator.addGrass(map.noNewPlants);
+    }
 }
