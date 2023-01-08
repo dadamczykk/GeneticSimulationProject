@@ -14,15 +14,15 @@ public class GameMap {
     AbstractPlantGenerator plantGenerator;
     int noAnimals;
     int startingEnergy;
-    int sufficientEnergy;
+    public int sufficientEnergy;
     int consumedEnergy;
     int minimalMutations;
     int maximalMutations;
     int genLength;
     MutationType mutationType;
     BehaviourType behaviour;
-    Cell[][] grid;
-    List<ElementAnimal> animals = new ArrayList<>();
+    public Cell[][] grid;
+    public List<ElementAnimal> animals = new ArrayList<>();
     int day;
 
     public GameMap(MapType type, int width, int height, int noPlants, int plantEnergy, int noNewPlants,

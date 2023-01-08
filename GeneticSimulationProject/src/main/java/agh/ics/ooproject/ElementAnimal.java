@@ -2,7 +2,7 @@ package agh.ics.ooproject;
 
 public class ElementAnimal extends AbstractElement{
     int birthdate;
-    int energy;
+    public int energy;
     int sufficientEnergy;
     int consumedEnergy;
     MutationType mutationType;

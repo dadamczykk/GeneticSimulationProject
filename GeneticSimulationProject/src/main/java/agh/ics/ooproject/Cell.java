@@ -5,12 +5,12 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Cell {
-    List<ElementAnimal> animals = new ArrayList<>();
+    public List<ElementAnimal> animals = new ArrayList<>();
     ElementGrass grass;
     GameMap map;
     int deaths;
     int births;
-    boolean hasGrass;
+    public boolean hasGrass;
     Position position;
     public Cell(GameMap map, Position position){
         this.map = map;
