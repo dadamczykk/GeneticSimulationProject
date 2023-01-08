@@ -88,7 +88,7 @@ public class SimulationVisualizer {
             GridPane.setHalignment(fullStatsLabels.get(i), HPos.CENTER);
             GridPane.setValignment(fullStatsLabels.get(i), VPos.CENTER);
         }
-        fullStats.getColumnConstraints().addAll(new ColumnConstraints(150), new ColumnConstraints(70));
+        fullStats.getColumnConstraints().addAll(new ColumnConstraints(150), new ColumnConstraints(150));
         fullStats.setAlignment(Pos.CENTER);
 
         ArrayList<Label> indStatsNames = new ArrayList<>();
@@ -108,7 +108,7 @@ public class SimulationVisualizer {
             GridPane.setHalignment(indStatsLabels.get(i), HPos.CENTER);
             GridPane.setValignment(indStatsLabels.get(i), VPos.CENTER);
         }
-        indStats.getColumnConstraints().addAll(new ColumnConstraints(150), new ColumnConstraints(70));
+        indStats.getColumnConstraints().addAll(new ColumnConstraints(150), new ColumnConstraints(150));
         indStats.setAlignment(Pos.CENTER);
 
 
@@ -146,6 +146,17 @@ public class SimulationVisualizer {
                 mainGrid.add(rectTable[y][x], x, y);
                 GridPane.setHalignment(rectTable[y][x], HPos.CENTER);
                 GridPane.setHalignment(rectTable[y][x], HPos.CENTER);
+                int finalY = y;
+                int finalX = x;
+                rectTable[y][x].setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        if (engine.map.grid[finalY][finalX].animals.size() > 0) {
+                            followedOne = engine.map.grid[finalY][finalX].animals.get(0);
+                            updateIndStats();
+                        }
+                    }
+                });
             }
         }
         for (int y = 0; y < args.get(5);y++){
@@ -177,30 +188,15 @@ public class SimulationVisualizer {
         for (int x = 0; x < initArgs.get(4); x++){
             for (int y = 0; y < initArgs.get(5); y++){
                 rectTable[y][x].setFill(Color.BLANCHEDALMOND);
-                int finalX = x;
-                int finalY = y;
-                rectTable[y][x].setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                    }
-                });
+
                 if (engine.map.grid[y][x].hasGrass){
                     rectTable[y][x].setFill(plantColor);
                 }
+
                 if (engine.map.grid[y][x].animals.size() > 0){
                     rectTable[y][x].setFill(lerpRGB(engine.map.sufficientEnergy, engine.map.grid[y][x].animals.get(0).energy));
-                    int finalY1 = y;
-                    int finalX1 = x;
-                    rectTable[y][x].setOnMouseClicked(new EventHandler<MouseEvent>() {
-                        @Override
-                        public void handle(MouseEvent event) {
-                            followedOne = engine.map.grid[finalY1][finalX1].animals.get(0);
-                            updateIndStats();
-                        }
-                    });
-
-                    updateIndStats();
                 }
+
             }
         }
 
