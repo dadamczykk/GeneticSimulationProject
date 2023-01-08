@@ -88,7 +88,7 @@ public class SimulationVisualizer {
             GridPane.setHalignment(fullStatsLabels.get(i), HPos.CENTER);
             GridPane.setValignment(fullStatsLabels.get(i), VPos.CENTER);
         }
-        fullStats.getColumnConstraints().addAll(new ColumnConstraints(150), new ColumnConstraints(70));
+        fullStats.getColumnConstraints().addAll(new ColumnConstraints(150), new ColumnConstraints(150));
         fullStats.setAlignment(Pos.CENTER);
 
         ArrayList<Label> indStatsNames = new ArrayList<>();
@@ -108,7 +108,7 @@ public class SimulationVisualizer {
             GridPane.setHalignment(indStatsLabels.get(i), HPos.CENTER);
             GridPane.setValignment(indStatsLabels.get(i), VPos.CENTER);
         }
-        indStats.getColumnConstraints().addAll(new ColumnConstraints(150), new ColumnConstraints(70));
+        indStats.getColumnConstraints().addAll(new ColumnConstraints(150), new ColumnConstraints(150));
         indStats.setAlignment(Pos.CENTER);
 
 
