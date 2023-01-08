@@ -96,6 +96,7 @@ public class GameMap {
                     }
                 }
                 for (ElementAnimal element : toDelete) {
+                    element.dayOfDeath = day;
                     this.grid[i][j].removeElement(element);
                 }
             }

@@ -14,6 +14,8 @@ public class ElementAnimal extends AbstractElement{
     public AbstractGenotype genotype;
     int genLength;
     public int noChildren;
+    public int plantsEaten;
+    public int dayOfDeath;
     public ElementAnimal(GameMap map, Position position, int birthdate, int startingEnergy, int sufficientEnergy,
                          int consumedEnergy, MutationType mutationType, int genLength, BehaviourType behaviour){
         this.birthdate = birthdate;
@@ -32,6 +34,8 @@ public class ElementAnimal extends AbstractElement{
         this.alive = true;
         this.genLength = genLength;
         this.noChildren = 0;
+        this.plantsEaten = 0;
+        this.dayOfDeath = 0;
     }
     public void move(){
         if (this.energy <= 0){
@@ -40,10 +44,10 @@ public class ElementAnimal extends AbstractElement{
 
         this.dir = (this.dir + this.genotype.nextMove())%8;
         Position nextPosition = this.position.addDir(this.dir);
-        System.out.println(map.type);
+//        System.out.println(map.type);
         switch (this.map.type){
             case Valhalla -> {
-                System.out.println("Val");
+//                System.out.println("Val");
                 switch (this.map.isValidPosition(nextPosition)){
                     case Left, Right -> {
                         nextPosition = new Position((nextPosition.x + this.map.width) % this.map.width, nextPosition.y);
@@ -70,11 +74,6 @@ public class ElementAnimal extends AbstractElement{
                 }
             }
         }
-//        if (this.map.type == MapType.Valhalla){
-//
-//        }else{
-//
-//        }
         Cell currentCell = this.map.getCellAt(this.position);
         currentCell.moveAnimalTo(this, nextPosition);
     }

@@ -48,6 +48,7 @@ public class Cell {
                 this.animals.sort(win);
             }
             this.animals.get(0).energy = this.animals.get(0).energy + grass.energy;
+            this.animals.get(0).plantsEaten++;
             grass.alive = false;
             this.hasGrass = false;
         }
