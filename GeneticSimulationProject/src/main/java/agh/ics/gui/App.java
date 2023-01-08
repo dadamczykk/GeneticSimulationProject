@@ -3,9 +3,6 @@ package agh.ics.gui;
 import agh.ics.ooproject.*;
 import agh.ics.ooproject.GameMap;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
@@ -24,9 +20,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.*;
-import java.util.regex.Pattern;
 
 public class App extends Application {
     private GameMap map;
@@ -64,7 +58,7 @@ public class App extends Application {
 
         Font mainFont = new Font("Comic Sans MS", 15);
 
-        ObservableList<MapType> worldVersions = FXCollections.observableArrayList(MapType.Hel, MapType.Valhalla);
+        ObservableList<MapType> worldVersions = FXCollections.observableArrayList(MapType.HEL, MapType.VALHALLA);
         ComboBox<MapType> worldVersion = new ComboBox<>(worldVersions);
         worldVersion.setMinHeight(minHeight);
         worldVersion.setMinWidth(minWidth);
@@ -74,7 +68,7 @@ public class App extends Application {
         worldStr.setTextAlignment(TextAlignment.CENTER);
 //        worldStr.setFont(mainFont);
         HBox worldCont = new HBox(worldStr, worldVersion);
-        worldVersion.setValue(MapType.Valhalla);
+        worldVersion.setValue(MapType.VALHALLA);
 
 
         ObservableList<PlantType> plantsVersions = FXCollections.observableArrayList(PlantType.EQUATOR,

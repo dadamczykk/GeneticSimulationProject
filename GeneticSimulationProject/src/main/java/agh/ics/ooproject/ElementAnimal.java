@@ -46,31 +46,31 @@ public class ElementAnimal extends AbstractElement{
         Position nextPosition = this.position.addDir(this.dir);
 //        System.out.println(map.type);
         switch (this.map.type){
-            case Valhalla -> {
+            case VALHALLA -> {
 //                System.out.println("Val");
                 switch (this.map.isValidPosition(nextPosition)){
-                    case Left, Right -> {
+                    case LEFT, RIGHT -> {
                         nextPosition = new Position((nextPosition.x + this.map.width) % this.map.width, nextPosition.y);
                     }
-                    case Up, Down -> {
+                    case UP, DOWN -> {
                         nextPosition = this.position;
                         this.dir = (this.dir + 4)%8;
                     }
-                    case Corner -> {
+                    case CORNER -> {
                         nextPosition = new Position((nextPosition.x + this.map.width) % this.map.width, this.position.y);
                         this.dir = (this.dir + 4)%8;
                     }
-                    case Inside -> {}
+                    case INSIDE -> {}
                 }
             }
-            case Hel -> {
+            case HEL -> {
                 switch (this.map.isValidPosition(nextPosition)){
-                    case Left, Right, Up, Down, Corner -> {
+                    case LEFT, RIGHT, UP, DOWN, CORNER -> {
                         nextPosition = new Position((int) Math.floor(Math.random()*this.map.width),
                                 (int) Math.floor(Math.random()*this.map.width));
                         this.energy = this.energy - consumedEnergy;
                     }
-                    case Inside -> {}
+                    case INSIDE -> {}
                 }
             }
         }

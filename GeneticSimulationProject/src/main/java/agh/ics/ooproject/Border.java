@@ -1,22 +1,22 @@
 package agh.ics.ooproject;
 
 public enum Border {
-    Left,
-    Right,
-    Up,
-    Down,
-    Corner,
-    Inside;
+    LEFT,
+    RIGHT,
+    UP,
+    DOWN,
+    CORNER,
+    INSIDE;
 
     @Override
     public String toString(){
         return switch (this){
-            case Left -> "Left";
-            case Right -> "Right";
-            case Up -> "Up";
-            case Down -> "Down";
-            case Corner -> "LeftUp";
-            case Inside -> "Inside";
+            case LEFT -> "Left";
+            case RIGHT -> "Right";
+            case UP -> "Up";
+            case DOWN -> "Down";
+            case CORNER -> "LeftUp";
+            case INSIDE -> "Inside";
         };
     }
 }

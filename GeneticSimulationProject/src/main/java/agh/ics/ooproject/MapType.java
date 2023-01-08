@@ -2,14 +2,14 @@ package agh.ics.ooproject;
 
 public enum MapType {
 
-    Hel,
-    Valhalla;
+    HEL,
+    VALHALLA;
 
     @Override
     public String toString(){
         return switch (this){
-            case Valhalla -> "Globe";
-            case Hel -> "Hellish portal";
+            case VALHALLA -> "Globe";
+            case HEL -> "Hellish portal";
         };
     }
 }
