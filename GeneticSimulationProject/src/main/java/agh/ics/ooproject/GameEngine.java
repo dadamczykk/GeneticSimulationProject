@@ -21,6 +21,7 @@ public class GameEngine {
         map.consumption();
         map.procreation();
         map.plantGenerator.addGrass(map.noNewPlants);
+        map.setMaxVals();
         map.day++;
 
     }

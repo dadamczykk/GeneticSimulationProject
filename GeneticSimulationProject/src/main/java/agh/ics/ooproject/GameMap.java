@@ -2,6 +2,8 @@ package agh.ics.ooproject;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class GameMap {
@@ -25,6 +27,8 @@ public class GameMap {
     public List<ElementAnimal> aliveAnimals = new ArrayList<>();
     public List<ElementAnimal> deadAnimals = new ArrayList<>();
     int day;
+
+    public int maxEnergy = 0;
 
     public GameMap(MapType type, int width, int height, int noPlants, int plantEnergy, int noNewPlants,
                    PlantType plantGenerator, int noAnimals, int startingEnergy,
@@ -159,6 +163,15 @@ public class GameMap {
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
                 this.grid[i][j].procreate();
+            }
+        }
+    }
+    public void setMaxVals(){
+        Comparator<ElementAnimal> win = Comparator.comparingInt((ElementAnimal x) -> -x.energy);
+        if (this.aliveAnimals.size() > 0) {
+            int maxEnergy = Collections.max(this.aliveAnimals, win).energy;
+            if (this.deadAnimals.size() > 0) {
+                maxEnergy = Math.max(maxEnergy, Collections.max(this.deadAnimals, win).energy);
             }
         }
     }
