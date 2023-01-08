@@ -154,6 +154,7 @@ public class SimulationVisualizer {
                         if (engine.map.grid[finalY][finalX].animals.size() > 0) {
                             followedOne = engine.map.grid[finalY][finalX].animals.get(0);
                             updateIndStats();
+                            rectTable[finalY][finalX].setFill(Color.CORNFLOWERBLUE);
                         }
                     }
                 });
@@ -233,6 +234,9 @@ public class SimulationVisualizer {
                 if (!engine.map.grid[y][x].hasGrass && engine.map.grid[y][x].animals.size() == 0){
                     noEmpty++;
                 }
+                if (followedOne != null && followedOne.position.x == x && followedOne.position.y == y && followedOne.alive){
+                    rectTable[y][x].setFill(Color.CORNFLOWERBLUE);
+                }
 
             }
         }
@@ -287,7 +291,7 @@ public class SimulationVisualizer {
     private void highlightBest(){
         for (ElementAnimal animal : engine.map.aliveAnimals){
             if(Arrays.toString(animal.genotype.genome).equals(topGenome)){
-                rectTable[animal.position.y][animal.position.x].setFill(Color.HOTPINK);
+                rectTable[animal.position.y][animal.position.x].setFill(Color.GREENYELLOW);
             }
         }
     }

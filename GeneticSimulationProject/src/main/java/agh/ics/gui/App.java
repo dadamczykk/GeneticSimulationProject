@@ -456,7 +456,7 @@ public class App extends Application {
         if (args.get(12) * args.get(13) < 0){
             throw new Exception("Child mutations cannot be negative");
         }
-        if (args.get(12) >= args.get(13)){
+        if (args.get(12) > args.get(13)){
             throw new Exception("Incorrect min and max value of children mutations");
         }
         if (args.get(14) <= 0){
