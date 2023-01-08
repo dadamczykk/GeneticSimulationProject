@@ -59,8 +59,9 @@ public class Cell {
                     thenComparingInt((ElementAnimal x) -> x.noChildren);
             this.animals.sort(win);
             int i = 0;
-            while (animals.get(i).energy >= map.sufficientEnergy){
+            while ( i < animals.size() && animals.get(i).energy >= map.sufficientEnergy){
                 i++;
+
             }
             i--;
             i = i/2;
