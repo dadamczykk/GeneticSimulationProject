@@ -14,9 +14,11 @@ public class PlantGeneratorToxic extends AbstractPlantGenerator{
                 cells.add(this.map.grid[i][j]);
             }
         }
+
         Comparator<Cell> byDeaths = Comparator.comparingInt((Cell x) -> x.deaths);
         Collections.shuffle(cells);
         cells.sort(byDeaths);
+
         List<Cell> preferableCells = new ArrayList<>();
         List<Cell> notPreferableCells = new ArrayList<>();
         for (int i = 0; i < this.map.height*this.map.width; i++){

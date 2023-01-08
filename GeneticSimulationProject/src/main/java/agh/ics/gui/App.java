@@ -63,9 +63,8 @@ public class App extends Application {
 
         Font mainFont = new Font("Comic Sans MS", 15);
 
-        ObservableList<WorldTypes> worldVersions = FXCollections.observableArrayList(WorldTypes.EARTH,
-                WorldTypes.HELL);
-        ComboBox<WorldTypes> worldVersion = new ComboBox<>(worldVersions);
+        ObservableList<MapType> worldVersions = FXCollections.observableArrayList(MapType.Hel, MapType.Valhalla);
+        ComboBox<MapType> worldVersion = new ComboBox<>(worldVersions);
         worldVersion.setMinHeight(minHeight);
         worldVersion.setMinWidth(minWidth);
         Label worldStr = new Label("Choose your world version:\t");
@@ -74,7 +73,7 @@ public class App extends Application {
         worldStr.setTextAlignment(TextAlignment.CENTER);
         worldStr.setFont(mainFont);
         HBox worldCont = new HBox(worldStr, worldVersion);
-        worldVersion.setValue(WorldTypes.EARTH);
+        worldVersion.setValue(MapType.Valhalla);
 
 
         ObservableList<PlantType> plantsVersions = FXCollections.observableArrayList(PlantType.EQUATOR,
@@ -342,7 +341,7 @@ public class App extends Application {
 
                 try {
                     HashMap <Integer, Integer> filling = readFile(sourceFile.getText());
-                    worldVersion.setValue(WorldTypes.values()[filling.get(0)]);
+                    worldVersion.setValue(MapType.values()[filling.get(0)]);
                     plantsVersion.setValue(PlantType.values()[filling.get(1)]);
                     mutationVersion.setValue(MutationType.values()[filling.get(2)]);
                     behaviourVersion.setValue(BehaviourType.values()[filling.get(3)]);

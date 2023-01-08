@@ -1,8 +1,9 @@
 package agh.ics.ooproject;
 
 public enum MapType {
-    Valhalla,
-    Hel;
+
+    Hel,
+    Valhalla;
 
     @Override
     public String toString(){
