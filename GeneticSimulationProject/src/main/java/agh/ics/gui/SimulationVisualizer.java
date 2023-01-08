@@ -184,7 +184,7 @@ public class SimulationVisualizer {
     public void updateScene() throws IOException {
         Comparator<ElementAnimal> win = Comparator.comparingInt((ElementAnimal x) -> -x.energy);
         engine.map.animals.sort(win);
-        int maxEnergy = engine.map.animals.get(0).energy;
+        int maxEnergy = engine.map.animals.get(0).energy; // engine.map.sufficientEnergy
         for (int x = 0; x < initArgs.get(4); x++){
             for (int y = 0; y < initArgs.get(5); y++){
                 rectTable[y][x].setFill(Color.BLANCHEDALMOND);
@@ -194,7 +194,7 @@ public class SimulationVisualizer {
                 }
 
                 if (engine.map.grid[y][x].animals.size() > 0){
-                    rectTable[y][x].setFill(lerpRGB(engine.map.sufficientEnergy, engine.map.grid[y][x].animals.get(0).energy));
+                    rectTable[y][x].setFill(lerpRGB(maxEnergy, engine.map.grid[y][x].animals.get(0).energy));
                 }
 
             }
