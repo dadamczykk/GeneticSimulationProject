@@ -56,8 +56,8 @@ public class SimulationVisualizer {
     int noAnimals = 0;
     int noPlants = 0;
     int noEmpty = 0;
-    int avgEnergy = 0;
-    int avgTol = 0;
+    float allEnergy = 0;
+    float avgTol = 0;
 
     public SimulationVisualizer(ArrayList <Integer> args, SimulationEngine eng){
         initArgs = args;
@@ -182,17 +182,26 @@ public class SimulationVisualizer {
          noAnimals = 0;
          noPlants = 0;
          noEmpty = 0;
-         avgEnergy = 0;
+         allEnergy = 0;
          avgTol = 0;
         Comparator<ElementAnimal> win = Comparator.comparingInt((ElementAnimal x) -> -x.energy);
+
+        if (engine.map.deadAnimals.size() != 0) {
+            for (ElementAnimal animal : engine.map.deadAnimals) {
+                avgTol += animal.dayOfDeath - animal.birthdate;
+            }
+            avgTol /= (float) engine.map.deadAnimals.size();
+        }
+
 
         int maxEnergy =  engine.map.sufficientEnergy;
         if (engine.map.aliveAnimals.size() > 0) {
             engine.map.aliveAnimals.sort(win);
-            engine.map.deadAnimals.sort(win);
+
 
             maxEnergy = engine.map.aliveAnimals.get(0).energy; //
             if (engine.map.deadAnimals.size() > 0) {
+                engine.map.deadAnimals.sort(win);
                 maxEnergy = Math.max(maxEnergy, engine.map.deadAnimals.get(0).energy);
             }
         }
@@ -207,10 +216,14 @@ public class SimulationVisualizer {
                 if (engine.map.grid[y][x].animals.size() > 0){
                     rectTable[y][x].setFill(lerpRGB(maxEnergy, engine.map.grid[y][x].animals.get(0).energy));
                     noAnimals = noAnimals + engine.map.grid[y][x].animals.size();
+                    for (ElementAnimal animal : engine.map.grid[y][x].animals){
+                        allEnergy += animal.energy;
+                    }
                 }
                 if (!engine.map.grid[y][x].hasGrass && engine.map.grid[y][x].animals.size() == 0){
                     noEmpty++;
                 }
+
 
 
             }
@@ -225,6 +238,9 @@ public class SimulationVisualizer {
 //        return Color.color(0, 0, 0);
         if (currVal < 0){
             t = 0;
+        }
+        if (t > 1){
+            t = 1;
         }
         return Color.color((minR + (maxR - minR) * t),
                 (minG + (maxG - minG) * t),
@@ -243,8 +259,8 @@ public class SimulationVisualizer {
         this.fullStatsLabels.get(2).setText(String.valueOf(noPlants));
         this.fullStatsLabels.get(3).setText(String.valueOf(noEmpty));
         this.fullStatsLabels.get(4).setText(String.valueOf(0));
-        this.fullStatsLabels.get(5).setText(String.valueOf(0));
-        this.fullStatsLabels.get(6).setText(String.valueOf(0));
+        this.fullStatsLabels.get(5).setText(String.valueOf(noAnimals != 0 ? (float) allEnergy / noAnimals : 0));
+        this.fullStatsLabels.get(6).setText(String.valueOf(avgTol));
     }
 
     protected void updateIndStats(){
