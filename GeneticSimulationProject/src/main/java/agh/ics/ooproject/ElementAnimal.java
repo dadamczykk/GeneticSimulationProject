@@ -37,34 +37,49 @@ public class ElementAnimal extends AbstractElement{
 
         this.dir = (this.dir + this.genotype.nextMove())%8;
         Position nextPosition = this.position.addDir(this.dir);
-        switch (this.map.type){
-            case Valhalla -> {
-                switch (this.map.isValidPosition(nextPosition)){
-                    case Left, Right -> {
-                        nextPosition = new Position(nextPosition.x % this.map.width, nextPosition.y);
-                    }
-                    case Up, Down -> {
-                        nextPosition = this.position;
-                        this.dir = (this.dir + 4)%8;
-                    }
-                    case Corner -> {
-                        nextPosition = new Position(nextPosition.x % this.map.width, this.position.y);
-                        this.dir = (this.dir + 4)%8;
-                    }
-                    case Inside -> {}
-                }
+        switch (this.map.isValidPosition(nextPosition)){
+            case Left, Right -> {
+                nextPosition = new Position(nextPosition.x % this.map.width, nextPosition.y);
             }
-            case Hel -> {
-                switch (this.map.isValidPosition(nextPosition)){
-                    case Left, Right, Up, Down, Corner -> {
-                        nextPosition = new Position((int) Math.floor(Math.random()*this.map.width),
-                                (int) Math.floor(Math.random()*this.map.width));
-                        this.energy = this.energy - consumedEnergy;
-                    }
-                    case Inside -> {}
-                }
+            case Up, Down -> {
+                nextPosition = this.position;
+                this.dir = (this.dir + 4)%8;
             }
+            case Corner -> {
+                nextPosition = new Position(nextPosition.x % this.map.width, this.position.y);
+                this.dir = (this.dir + 4)%8;
+            }
+            case Inside -> {}
         }
+//        switch (this.map.type){
+//            case Valhalla -> {
+//                System.out.println("Val");
+//                switch (this.map.isValidPosition(nextPosition)){
+//                    case Left, Right -> {
+//                        nextPosition = new Position(nextPosition.x % this.map.width, nextPosition.y);
+//                    }
+//                    case Up, Down -> {
+//                        nextPosition = this.position;
+//                        this.dir = (this.dir + 4)%8;
+//                    }
+//                    case Corner -> {
+//                        nextPosition = new Position(nextPosition.x % this.map.width, this.position.y);
+//                        this.dir = (this.dir + 4)%8;
+//                    }
+//                    case Inside -> {}
+//                }
+//            }
+//            case Hel -> {
+//                switch (this.map.isValidPosition(nextPosition)){
+//                    case Left, Right, Up, Down, Corner -> {
+//                        nextPosition = new Position((int) Math.floor(Math.random()*this.map.width),
+//                                (int) Math.floor(Math.random()*this.map.width));
+//                        this.energy = this.energy - consumedEnergy;
+//                    }
+//                    case Inside -> {}
+//                }
+//            }
+//        }
 //        if (this.map.type == MapType.Valhalla){
 //
 //        }else{
