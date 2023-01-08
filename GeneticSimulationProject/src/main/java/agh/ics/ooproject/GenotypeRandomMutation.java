@@ -10,11 +10,14 @@ public class GenotypeRandomMutation extends AbstractGenotype {
 
     @Override
     void mutate() {
-        int noMutations = (int) Math.floor(Math.random()*
-                (this.animal.map.maximalMutations - this.animal.map.minimalMutations) +
-                this.animal.map.minimalMutations);
-        for (int i = 0; i < noMutations; i++) {
-            this.genome[i] = (int) Math.floor(Math.random()*8);
+        int[] mutated = new int[this.N];
+        int toMutate = (int) Math.floor(Math.random()*this.N);
+        for (int i = 0; i < this.noMutations; i++) {
+            while (mutated[toMutate] != 0){
+                toMutate = (int) Math.floor(Math.random()*this.N);
+            }
+            this.genome[toMutate] = (int) Math.floor(Math.random()*8);
+            mutated[toMutate] = 1;
         }
     }
 }

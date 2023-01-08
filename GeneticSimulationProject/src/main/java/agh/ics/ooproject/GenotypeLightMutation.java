@@ -7,15 +7,21 @@ public class GenotypeLightMutation extends AbstractGenotype{
 
     @Override
     void mutate() {
-        int noMutations = (int) Math.floor(Math.random()*
-                (this.animal.map.maximalMutations - this.animal.map.minimalMutations) +
-                this.animal.map.minimalMutations);
-        for (int i = 0; i < noMutations; i++) {
-            if (Math.random() < 0.5){
-                this.genome[i] = (this.genome[i] + 1) % 8;
-            }else{
-                this.genome[i] = (this.genome[i] - 1) % 8;
+        int[] mutated = new int[this.N];
+        for (int i = 0; i < this.N; i++) {
+            mutated[i] = 0;
+        }
+        int toMutate = (int) Math.floor(Math.random()*this.N);
+        for (int i = 0; i < this.noMutations; i++) {
+            while (mutated[toMutate] != 0){
+                toMutate = (int) Math.floor(Math.random()*this.N);
             }
+            if (Math.random() < 0.5){
+                this.genome[toMutate] = (this.genome[toMutate] + 1) % 8;
+            }else{
+                this.genome[toMutate] = (this.genome[toMutate] - 1) % 8;
+            }
+            mutated[toMutate] = 1;
         }
     }
 

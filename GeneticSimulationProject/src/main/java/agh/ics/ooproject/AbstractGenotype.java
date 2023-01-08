@@ -9,6 +9,7 @@ abstract public class AbstractGenotype {
     public int currentGenIdx;
     ElementAnimal animal;
     int startingIdx;
+    int noMutations;
     public AbstractGenotype(ElementAnimal animal, int N){
 
         this.N = N;
@@ -22,6 +23,10 @@ abstract public class AbstractGenotype {
         this.currentGenIdx = (int) Math.floor(Math.random()*N);
         this.startingIdx = this.currentGenIdx;
         this.wasUsed[this.currentGenIdx] = 1;
+        this.noMutations = (int) Math.floor(Math.random()*
+                (this.animal.map.maximalMutations - this.animal.map.minimalMutations) +
+                this.animal.map.minimalMutations);
+        noMutations = Math.min(noMutations, N);
     }
 
     int nextMove() {
