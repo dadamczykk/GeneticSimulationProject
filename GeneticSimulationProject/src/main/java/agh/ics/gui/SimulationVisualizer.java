@@ -223,6 +223,7 @@ public class SimulationVisualizer {
         return Color.color((minR + (maxR - minR) * t),
                 (minG + (maxG - minG) * t),
                 (minB + (maxB - minB) * t));
+
     }
 
     private void changeOnFocusAnimal(int x, int y){
