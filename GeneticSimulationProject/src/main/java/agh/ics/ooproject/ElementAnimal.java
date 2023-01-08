@@ -69,11 +69,6 @@ public class ElementAnimal extends AbstractElement{
                 }
             }
         }
-//        if (this.map.type == MapType.Valhalla){
-//
-//        }else{
-//
-//        }
         Cell currentCell = this.map.getCellAt(this.position);
         currentCell.moveAnimalTo(this, nextPosition);
     }
