@@ -80,16 +80,23 @@ public class GameMap {
     }
 
     public void deleteDead(){
+
+        ElementAnimal animal;
         List<ElementAnimal> toDelete = new ArrayList<>();
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
                 for (int k = 0; k < this.grid[i][j].animals.size(); k++) {
-                    if(!this.grid[i][j].animals.get(k).alive){
-                        toDelete.add(this.grid[i][j].animals.get(k));
+                    animal = this.grid[i][j].animals.get(k);
+                    animal.energy--;
+                    if (animal.energy < 0){
+                        animal.alive = false;
+                    }
+                    if(!animal.alive){
+                        toDelete.add(animal);
                     }
                 }
                 for (ElementAnimal element : toDelete) {
-                    this.grid[i][j].animals.remove(element);
+                    this.grid[i][j].removeElement(element);
                 }
             }
         }
@@ -113,14 +120,14 @@ public class GameMap {
         return Border.Corner;
     }
     public void updateAnimalPositions(){
-        List<ElementAnimal> toMove;
+        List<ElementAnimal> toMove = new ArrayList<>();
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
-                toMove = new ArrayList<>(this.grid[i][j].animals);
-                for (ElementAnimal element : toMove) {
-                    element.move();
-                }
+                toMove.addAll(this.grid[i][j].animals);
             }
+        }
+        for (ElementAnimal element : toMove) {
+            element.move();
         }
 //        ElementAnimal animal;
 //

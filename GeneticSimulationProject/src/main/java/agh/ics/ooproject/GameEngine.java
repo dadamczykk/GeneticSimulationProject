@@ -19,8 +19,9 @@ public class GameEngine {
         map.deleteDead();
         map.updateAnimalPositions();
         map.consumption();
-//        map.procreation();
+        map.procreation();
         map.plantGenerator.addGrass(map.noNewPlants);
         map.day++;
+
     }
 }

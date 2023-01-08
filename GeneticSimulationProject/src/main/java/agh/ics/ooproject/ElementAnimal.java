@@ -1,5 +1,7 @@
 package agh.ics.ooproject;
 
+import java.util.Objects;
+
 public class ElementAnimal extends AbstractElement{
     public int birthdate;
     public int energy;
@@ -30,12 +32,12 @@ public class ElementAnimal extends AbstractElement{
         this.alive = true;
     }
     public void move(){
-        this.energy--;
-        if (this.energy < 0){
-            this.alive = false;
+        if (this.energy <= 0){
+            return;
         }
 
         this.dir = (this.dir + this.genotype.nextMove())%8;
+        System.out.println(this.genotype.nextMove());
         Position nextPosition = this.position.addDir(this.dir);
         switch (this.map.isValidPosition(nextPosition)){
             case Left, Right -> {
@@ -85,8 +87,8 @@ public class ElementAnimal extends AbstractElement{
 //        }else{
 //
 //        }
-        Cell oldCell = this.map.getCellAt(this.position);
-        oldCell.moveElementTo(this, nextPosition);
+        Cell currentCell = this.map.getCellAt(this.position);
+        currentCell.moveAnimalTo(this, nextPosition);
     }
     public ElementAnimal procreateWith(ElementAnimal animal){
         ElementAnimal newAnimal = new ElementAnimal(this.map, this.position, this.map.day,
@@ -99,5 +101,18 @@ public class ElementAnimal extends AbstractElement{
         }
         newAnimal.genotype.mutate();
         return newAnimal;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ElementAnimal that = (ElementAnimal) o;
+        return birthdate == that.birthdate && energy == that.energy && sufficientEnergy == that.sufficientEnergy && consumedEnergy == that.consumedEnergy && dir == that.dir && genLength == that.genLength && noChildren == that.noChildren && mutationType == that.mutationType && behaviour == that.behaviour && Objects.equals(map, that.map) && Objects.equals(genotype, that.genotype);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(birthdate, energy, sufficientEnergy, consumedEnergy, mutationType, behaviour, map, dir, genotype, genLength, noChildren);
     }
 }

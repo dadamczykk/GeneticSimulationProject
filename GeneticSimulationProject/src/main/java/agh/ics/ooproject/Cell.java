@@ -20,24 +20,24 @@ public class Cell {
         if (element instanceof ElementGrass){
             this.hasGrass = true;
             this.grass = (ElementGrass) element;
-        }
-        if (element instanceof ElementAnimal){
+        }else{
             this.animals.add((ElementAnimal) element);
         }
-
     }
     public void removeElement(AbstractElement element){
         if (element instanceof ElementGrass){
             grass.alive = false;
             this.hasGrass = false;
-        }
-        if (element instanceof ElementAnimal){
+        }else{
             this.animals.remove((ElementAnimal) element);
         }
     }
-    public void moveElementTo(AbstractElement element, Position position){
-        this.map.getCellAt(position).addElement(element);
-        this.removeElement(element);
+    public void moveAnimalTo(ElementAnimal element, Position position){
+        if (animals.contains(element)){
+            this.removeElement(element);
+            this.map.getCellAt(position).addElement(element);
+            element.position = position;
+        }
     }
     public void eatGrass(){
         if (this.hasGrass && this.animals.size() > 0){
