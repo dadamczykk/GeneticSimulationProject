@@ -26,10 +26,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 public class SimulationVisualizer {
     private final GridPane mainGrid = new GridPane();
@@ -48,13 +45,13 @@ public class SimulationVisualizer {
 
     int day;
 
-    private static final int minR = 190;
-    private static final int minG = 230;
-    private static final int minB = 135;
+    private static final double minR = 190.0 / 255;
+    private static final double minG = 230.0 / 255;
+    private static final double minB = 135.0 / 255;
 
-    private static final int maxR = 105;
-    private static final int maxG = 6;
-    private static final int maxB = 6;
+    private static final double maxR = 105.0 / 255;
+    private static final double maxG = 6.0 / 255;
+    private static final double maxB = 6.0 / 255;
 
     private static final Color bgColor = Color.rgb(110,255,166);
 
@@ -189,7 +186,7 @@ public class SimulationVisualizer {
 //                        followedOne =
                         updateIndStats();
                         indStatsLabels.get(0).setText("plswork" + finalX + finalY);
-                        rectTable[finalY][finalX].setFill(Color.rgb(110,255,166));
+//                        rectTable[finalY][finalX].setFill(Color.rgb(110,255,166));
                     }
                 });
                 if (engine.map.grid[y][x].hasGrass){
@@ -197,6 +194,17 @@ public class SimulationVisualizer {
                 }
                 if (engine.map.grid[y][x].animals.size() > 0){
                     rectTable[y][x].setFill(lerpRGB(engine.map.sufficientEnergy, engine.map.grid[y][x].animals.get(0).energy));
+                    int finalY1 = y;
+                    int finalX1 = x;
+                    rectTable[y][x].setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            followedOne = engine.map.grid[finalY1][finalX1].animals.get(0);
+                            updateIndStats();
+                        }
+                    });
+
+                    updateIndStats();
                 }
             }
         }
@@ -208,13 +216,14 @@ public class SimulationVisualizer {
 
     private Color lerpRGB(int maxVal, int currVal){
         float t = Math.min((float)currVal, (float)maxVal) / (float) maxVal;
+//        return Color.color(0, 0, 0);
+        if (currVal < 0){
+            t = 0;
+        }
+        return Color.color((minR + (maxR - minR) * t),
+                (minG + (maxG - minG) * t),
+                (minB + (maxB - minB) * t));
 
-//        return Color.rgb((int) (minR + (maxR - minR) * t),
-//                            (int) (minG + (maxG - minG) * t),
-//                            (int) (minB + (maxB - minB) * t));
-        return Color.rgb(2,
-                2,
-                2);
     }
 
     private void changeOnFocusAnimal(int x, int y){
@@ -234,12 +243,12 @@ public class SimulationVisualizer {
 
     protected void updateIndStats(){
         if (followedOne != null) {
-            this.indStatsLabels.get(0).setText(String.valueOf(0));
-            this.indStatsLabels.get(1).setText(String.valueOf(0));
-            this.indStatsLabels.get(2).setText(String.valueOf(0));
+            this.indStatsLabels.get(0).setText(Arrays.toString(followedOne.genotype.genome));
+            this.indStatsLabels.get(1).setText(Integer.toString(followedOne.genotype.genome[followedOne.genotype.currentGenIdx]));
+            this.indStatsLabels.get(2).setText(Integer.toString(followedOne.energy));
             this.indStatsLabels.get(3).setText(String.valueOf(0));
-            this.indStatsLabels.get(4).setText(String.valueOf(0));
-            this.indStatsLabels.get(5).setText(String.valueOf(0));
+            this.indStatsLabels.get(4).setText(Integer.toString(followedOne.noChildren));
+            this.indStatsLabels.get(5).setText(Integer.toString(day - followedOne.birthdate));
             this.indStatsLabels.get(6).setText(String.valueOf(0));
             }
     }

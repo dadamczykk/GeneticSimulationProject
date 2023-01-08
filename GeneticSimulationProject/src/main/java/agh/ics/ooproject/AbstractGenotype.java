@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 abstract public class AbstractGenotype {
     int N;
-    int[] genome;
+    public int[] genome;
     int[] wasUsed;
-    int currentGenIdx;
+    public int currentGenIdx;
     ElementAnimal animal;
     int startingIdx;
     public AbstractGenotype(ElementAnimal animal, int N){

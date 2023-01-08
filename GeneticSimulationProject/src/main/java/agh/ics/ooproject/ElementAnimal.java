@@ -1,17 +1,17 @@
 package agh.ics.ooproject;
 
 public class ElementAnimal extends AbstractElement{
-    int birthdate;
+    public int birthdate;
     public int energy;
     int sufficientEnergy;
-    int consumedEnergy;
+    public int consumedEnergy;
     MutationType mutationType;
     BehaviourType behaviour;
     GameMap map;
     int dir;
-    AbstractGenotype genotype;
+    public AbstractGenotype genotype;
     int genLength;
-    int noChildren;
+    public int noChildren;
     public ElementAnimal(GameMap map, Position position, int birthdate, int startingEnergy, int sufficientEnergy,
                          int consumedEnergy, MutationType mutationType, int genLength, BehaviourType behaviour){
         this.birthdate = birthdate;
