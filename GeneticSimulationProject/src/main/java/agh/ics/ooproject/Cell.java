@@ -54,7 +54,7 @@ public class Cell {
         }
     }
     public void procreate(){
-        if (this.animals.size() > 2){
+        if (this.animals.size() >= 2){
             Comparator<ElementAnimal> win = Comparator.comparingInt((ElementAnimal x) -> -x.energy).
                     thenComparingInt((ElementAnimal x) -> x.birthdate).
                     thenComparingInt((ElementAnimal x) -> x.noChildren);
@@ -63,12 +63,14 @@ public class Cell {
             while ( i < animals.size() && animals.get(i).energy >= map.sufficientEnergy){
                 i++;
             }
-            i++;
+            i--;
+
             i = i/2;
+            i++;
             ElementAnimal newAnimal;
             for (int j = 0; j < i; j++) {
-                if (animals.get(i).alive && animals.get(i+1).alive){
-                    newAnimal = animals.get(i).procreateWith(animals.get(i+1));
+                if (animals.get(j).alive && animals.get(j+1).alive){
+                    newAnimal = animals.get(j).procreateWith(animals.get(j+1));
                     animals.add(newAnimal);
                     this.map.aliveAnimals.add(newAnimal);
                 }

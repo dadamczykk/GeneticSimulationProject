@@ -36,9 +36,9 @@ public class SimulationVisualizer {
 
     int day;
 
-    private static final double minR = 190.0 / 255;
-    private static final double minG = 230.0 / 255;
-    private static final double minB = 135.0 / 255;
+    private static final double minR = 255.0 / 255;
+    private static final double minG = 255.0 / 255;
+    private static final double minB = 255.0 / 255;
 
     private static final double maxR = 105.0 / 255;
     private static final double maxG = 6.0 / 255;
@@ -52,6 +52,12 @@ public class SimulationVisualizer {
     private Scene scene;
 
     private SimulationEngine engine;
+
+    int noAnimals = 0;
+    int noPlants = 0;
+    int noEmpty = 0;
+    int avgEnergy = 0;
+    int avgTol = 0;
 
     public SimulationVisualizer(ArrayList <Integer> args, SimulationEngine eng){
         initArgs = args;
@@ -173,25 +179,43 @@ public class SimulationVisualizer {
     }
 
     public void updateScene() throws IOException {
+         noAnimals = 0;
+         noPlants = 0;
+         noEmpty = 0;
+         avgEnergy = 0;
+         avgTol = 0;
         Comparator<ElementAnimal> win = Comparator.comparingInt((ElementAnimal x) -> -x.energy);
-        engine.map.aliveAnimals.sort(win);
-        int maxEnergy = engine.map.aliveAnimals.get(0).energy; // engine.map.sufficientEnergy
+
+        int maxEnergy =  engine.map.sufficientEnergy;
+        if (engine.map.aliveAnimals.size() > 0) {
+            engine.map.aliveAnimals.sort(win);
+            engine.map.deadAnimals.sort(win);
+
+            maxEnergy = engine.map.aliveAnimals.get(0).energy; //
+            if (engine.map.deadAnimals.size() > 0) {
+                maxEnergy = Math.max(maxEnergy, engine.map.deadAnimals.get(0).energy);
+            }
+        }
         for (int x = 0; x < initArgs.get(4); x++){
             for (int y = 0; y < initArgs.get(5); y++){
                 rectTable[y][x].setFill(Color.BLANCHEDALMOND);
 
                 if (engine.map.grid[y][x].hasGrass){
                     rectTable[y][x].setFill(plantColor);
+                    noPlants++;
                 }
-
                 if (engine.map.grid[y][x].animals.size() > 0){
                     rectTable[y][x].setFill(lerpRGB(maxEnergy, engine.map.grid[y][x].animals.get(0).energy));
+                    noAnimals = noAnimals + engine.map.grid[y][x].animals.size();
                 }
+                if (!engine.map.grid[y][x].hasGrass && engine.map.grid[y][x].animals.size() == 0){
+                    noEmpty++;
+                }
+
 
             }
         }
 
-//        for
         this.updateFullStats();
         this.updateIndStats();
     }
@@ -215,9 +239,9 @@ public class SimulationVisualizer {
     protected void updateFullStats() throws IOException {
         this.day++;
         this.fullStatsLabels.get(0).setText(String.valueOf(this.day));
-        this.fullStatsLabels.get(1).setText(String.valueOf(0));
-        this.fullStatsLabels.get(2).setText(String.valueOf(0));
-        this.fullStatsLabels.get(3).setText(String.valueOf(0));
+        this.fullStatsLabels.get(1).setText(String.valueOf(noAnimals));
+        this.fullStatsLabels.get(2).setText(String.valueOf(noPlants));
+        this.fullStatsLabels.get(3).setText(String.valueOf(noEmpty));
         this.fullStatsLabels.get(4).setText(String.valueOf(0));
         this.fullStatsLabels.get(5).setText(String.valueOf(0));
         this.fullStatsLabels.get(6).setText(String.valueOf(0));
@@ -228,11 +252,13 @@ public class SimulationVisualizer {
             this.indStatsLabels.get(0).setText(Arrays.toString(followedOne.genotype.genome));
             this.indStatsLabels.get(1).setText(Integer.toString(followedOne.genotype.genome[followedOne.genotype.currentGenIdx]));
             this.indStatsLabels.get(2).setText(Integer.toString(followedOne.energy));
-            this.indStatsLabels.get(3).setText(String.valueOf(0));
+            this.indStatsLabels.get(3).setText(Integer.toString(followedOne.plantsEaten));
             this.indStatsLabels.get(4).setText(Integer.toString(followedOne.noChildren));
-            this.indStatsLabels.get(5).setText(Integer.toString(day - followedOne.birthdate));
-            this.indStatsLabels.get(6).setText(String.valueOf(0));
+            this.indStatsLabels.get(5).setText(Integer.toString(followedOne.dayOfDeath == -1 ?
+                    day - followedOne.birthdate : followedOne.dayOfDeath - followedOne.birthdate));
+            this.indStatsLabels.get(6).setText(Integer.toString(followedOne.dayOfDeath));
             }
+
     }
     private void highlightBest(){
         // idk idk
