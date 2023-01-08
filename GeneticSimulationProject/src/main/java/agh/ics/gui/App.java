@@ -74,6 +74,7 @@ public class App extends Application {
         worldStr.setTextAlignment(TextAlignment.CENTER);
         worldStr.setFont(mainFont);
         HBox worldCont = new HBox(worldStr, worldVersion);
+        worldVersion.setValue(WorldTypes.EARTH);
 
 
         ObservableList<PlantType> plantsVersions = FXCollections.observableArrayList(PlantType.EQUATOR,
@@ -87,6 +88,7 @@ public class App extends Application {
         plantsStr.setTextAlignment(TextAlignment.CENTER);
         plantsStr.setFont(mainFont);
         HBox plantsCont = new HBox(plantsStr, plantsVersion);
+        plantsVersion.setValue(PlantType.EQUATOR);
 
 
         ObservableList<MutationType> mutationVersions = FXCollections.observableArrayList(MutationType.RANDOM,
@@ -100,6 +102,7 @@ public class App extends Application {
         mutationStr.setTextAlignment(TextAlignment.CENTER);
         mutationStr.setFont(mainFont);
         HBox mutationsCont = new HBox(mutationStr, mutationVersion);
+        mutationVersion.setValue(MutationType.RANDOM);
 
 
         ObservableList<BehaviourType> behaviourVersions = FXCollections.observableArrayList(BehaviourType.MADNESS,
@@ -113,6 +116,7 @@ public class App extends Application {
         behaviourStr.setTextAlignment(TextAlignment.CENTER);
         behaviourStr.setFont(mainFont);
         HBox behaviourCont = new HBox(behaviourStr, behaviourVersion);
+        behaviourVersion.setValue(BehaviourType.MADNESS);
 
 
         VBox textContainer = new VBox();
