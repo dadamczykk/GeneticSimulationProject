@@ -27,12 +27,12 @@ abstract public class AbstractGenotype {
     int nextMove() {
         switch (animal.behaviour){
             case PREDESTINATION -> {
-                if (this.wasUsed[(this.currentGenIdx + 1)%this.N] == 1){
+                if (this.wasUsed[(this.currentGenIdx + 1 + this.N)%this.N] == 1){
                     for (int i = 0; i < N; i++) {
                         this.wasUsed[i] = 0;
                     }
                 }
-                this.currentGenIdx = (this.currentGenIdx + 1)%this.N;
+                this.currentGenIdx = (this.currentGenIdx + 1 + this.N)%this.N;
                 this.wasUsed[this.currentGenIdx] = 1;
             }
             case MADNESS -> {
