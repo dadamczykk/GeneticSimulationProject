@@ -22,6 +22,5 @@ public class GameEngine {
         map.procreation();
         map.plantGenerator.addGrass(map.noNewPlants);
         map.day++;
-
     }
 }
