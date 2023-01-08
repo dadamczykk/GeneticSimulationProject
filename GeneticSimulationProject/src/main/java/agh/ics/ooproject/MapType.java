@@ -8,8 +8,8 @@ public enum MapType {
     @Override
     public String toString(){
         return switch (this){
-            case Valhalla -> "Valhalla";
-            case Hel -> "Hel";
+            case Valhalla -> "Globe";
+            case Hel -> "Hellish portal";
         };
     }
 }

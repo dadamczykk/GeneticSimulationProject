@@ -5,6 +5,7 @@ import agh.ics.ooproject.SimulationEngine;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,8 +35,8 @@ public class SimulationVisualizerCSV extends SimulationVisualizer{
                 + noEmpty + "," + topGenome.codePoints()
                 .filter(c -> Character.isDigit(c) || c == '[' || c == ']')
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString() + "," + (noAnimals != 0 ? (float) allEnergy / noAnimals : 0)
-                 + "," + avgTol + "\n");
+                .toString() + "," + String.format("%.2f", noAnimals != 0 ? (float) allEnergy / noAnimals : 0)
+                 + "," + String.format("%.2f", avgTol) + "\n");
         writer.close();
     }
 }

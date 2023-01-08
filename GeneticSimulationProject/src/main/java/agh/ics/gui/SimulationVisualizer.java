@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class SimulationVisualizer {
@@ -37,8 +38,8 @@ public class SimulationVisualizer {
     int day;
 
     private static final double minR = 255.0 / 255;
-    private static final double minG = 255.0 / 255;
-    private static final double minB = 255.0 / 255;
+    private static final double minG = 160.0 / 255;
+    private static final double minB = 122.0 / 255;
 
     private static final double maxR = 105.0 / 255;
     private static final double maxG = 6.0 / 255;
@@ -56,8 +57,8 @@ public class SimulationVisualizer {
     int noAnimals = 0;
     int noPlants = 0;
     int noEmpty = 0;
-    float allEnergy = 0;
-    float avgTol = 0;
+    double allEnergy = 0;
+    double avgTol = 0;
 
     String topGenome = "";
 
@@ -216,7 +217,7 @@ public class SimulationVisualizer {
 
         for (int x = 0; x < initArgs.get(4); x++){
             for (int y = 0; y < initArgs.get(5); y++){
-                rectTable[y][x].setFill(Color.CORAL);
+                rectTable[y][x].setFill(Color.WHITE);
 
                 if (engine.map.grid[y][x].hasGrass){
                     rectTable[y][x].setFill(plantColor);
@@ -266,8 +267,8 @@ public class SimulationVisualizer {
         this.fullStatsLabels.get(2).setText(String.valueOf(noPlants));
         this.fullStatsLabels.get(3).setText(String.valueOf(noEmpty));
         this.fullStatsLabels.get(4).setText(topGenome);
-        this.fullStatsLabels.get(5).setText(String.valueOf(noAnimals != 0 ? (float) allEnergy / noAnimals : 0));
-        this.fullStatsLabels.get(6).setText(String.valueOf(avgTol));
+        this.fullStatsLabels.get(5).setText(String.format("%.2f", (noAnimals != 0 ? allEnergy / noAnimals : 0)));
+        this.fullStatsLabels.get(6).setText(String.format("%.2f", avgTol));
     }
 
     protected void updateIndStats(){

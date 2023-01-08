@@ -7,8 +7,8 @@ public enum MutationType {
     @Override
     public String toString(){
         return switch (this){
-            case RANDOM -> "Genotype will mutate randomly";
-            case SLIGHT -> "Genotype will mutate slightly";
+            case RANDOM -> "Full randomness";
+            case SLIGHT -> "Slight variation";
         };
     }
 }
