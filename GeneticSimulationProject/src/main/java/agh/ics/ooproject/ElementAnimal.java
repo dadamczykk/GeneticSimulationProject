@@ -14,6 +14,8 @@ public class ElementAnimal extends AbstractElement{
     public AbstractGenotype genotype;
     int genLength;
     public int noChildren;
+    public int plantsEaten;
+    public int dayOfDeath;
     public ElementAnimal(GameMap map, Position position, int birthdate, int startingEnergy, int sufficientEnergy,
                          int consumedEnergy, MutationType mutationType, int genLength, BehaviourType behaviour){
         this.birthdate = birthdate;
@@ -32,6 +34,8 @@ public class ElementAnimal extends AbstractElement{
         this.alive = true;
         this.genLength = genLength;
         this.noChildren = 0;
+        this.plantsEaten = 0;
+        this.dayOfDeath = 0;
     }
     public void move(){
         if (this.energy <= 0){
