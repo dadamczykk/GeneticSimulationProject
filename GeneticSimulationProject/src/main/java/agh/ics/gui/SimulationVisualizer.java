@@ -182,11 +182,6 @@ public class SimulationVisualizer {
                 rectTable[y][x].setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        // change on focus animal
-//                        followedOne =
-                        updateIndStats();
-                        indStatsLabels.get(0).setText("plswork" + finalX + finalY);
-//                        rectTable[finalY][finalX].setFill(Color.rgb(110,255,166));
                     }
                 });
                 if (engine.map.grid[y][x].hasGrass){

@@ -74,9 +74,22 @@ public class SimulationEngine implements Runnable {
         int sleepTimer = 1500;
         System.out.println(sleepTimer);
 
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    simVis.updateScene();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
         Thread.sleep(sleepTimer);
         while(true){
             if (isPaused){ wait();}
+            this.gameEngine.update();
+
             try {
                 Platform.runLater(new Runnable() {
                     @Override
@@ -89,11 +102,13 @@ public class SimulationEngine implements Runnable {
                     }
                 });
                 Thread.sleep(sleepTimer);
+
             } catch (InterruptedException e){
                 System.out.println("thread stopped");
                 return;
             }
-            this.gameEngine.update();
+
+
         }
     }
 
