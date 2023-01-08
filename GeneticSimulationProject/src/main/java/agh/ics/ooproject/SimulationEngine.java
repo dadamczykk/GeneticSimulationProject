@@ -71,7 +71,7 @@ public class SimulationEngine implements Runnable {
     }
 
     private synchronized void testRun() throws InterruptedException {
-        int sleepTimer = 100;
+        int sleepTimer = 300;
         System.out.println(sleepTimer);
 
         Platform.runLater(new Runnable() {
