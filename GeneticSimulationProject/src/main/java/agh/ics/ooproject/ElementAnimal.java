@@ -30,6 +30,7 @@ public class ElementAnimal extends AbstractElement{
         this.behaviour = behaviour;
         this.dir = (int) Math.floor(Math.random()*8);
         this.alive = true;
+        this.genLength = genLength;
     }
     public void move(){
         if (this.energy <= 0){
@@ -38,6 +39,7 @@ public class ElementAnimal extends AbstractElement{
 
         this.dir = (this.dir + this.genotype.nextMove())%8;
         Position nextPosition = this.position.addDir(this.dir);
+        System.out.println(map.type);
         switch (this.map.type){
             case Valhalla -> {
                 System.out.println("Val");
