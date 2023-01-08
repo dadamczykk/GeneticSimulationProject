@@ -27,6 +27,9 @@ import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class SimulationVisualizer {
     private final GridPane mainGrid = new GridPane();
@@ -171,6 +174,9 @@ public class SimulationVisualizer {
     }
 
     public void updateScene() throws IOException {
+        Comparator<ElementAnimal> win = Comparator.comparingInt((ElementAnimal x) -> -x.energy);
+        engine.map.animals.sort(win);
+        int maxEnergy = engine.map.animals.get(0).energy;
         for (int x = 0; x < initArgs.get(4); x++){
             for (int y = 0; y < initArgs.get(5); y++){
                 rectTable[y][x].setFill(Color.BLANCHEDALMOND);
@@ -186,15 +192,23 @@ public class SimulationVisualizer {
                         rectTable[finalY][finalX].setFill(Color.rgb(110,255,166));
                     }
                 });
-
+                if (engine.map.grid[y][x].hasGrass){
+                    rectTable[y][x].setFill(plantColor);
+                }
+                if (engine.map.grid[y][x].animals.size() > 0){
+                    rectTable[y][x].setFill(lerpRGB(engine.map.sufficientEnergy, engine.map.grid[y][x].animals.get(0).energy));
+                }
             }
         }
+
+//        for
         this.updateFullStats();
         this.updateIndStats();
     }
 
     private Color lerpRGB(int maxVal, int currVal){
-        float t = (float)currVal / (float) maxVal;
+        float t = Math.min((float)currVal, (float)maxVal) / (float) maxVal;
+
         return Color.rgb((int) (minR + (maxR - minR) * t),
                             (int) (minG + (maxG - minG) * t),
                             (int) (minB + (maxB - minB) * t));
