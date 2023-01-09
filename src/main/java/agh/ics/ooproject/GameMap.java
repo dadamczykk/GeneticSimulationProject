@@ -153,9 +153,8 @@ public class GameMap {
         }
     }
     public synchronized void setStats(){
-        avgTol = 0;
-        topGenome = "None";
-        allEnergy = 0;
+
+
         topPositions = new ArrayList<>();
         maxEnergy = 0;
 
@@ -166,6 +165,7 @@ public class GameMap {
                 maxEnergy = Math.max(maxEnergy, Collections.max(this.deadAnimals, win).energy);
             }
         }
+        avgTol = 0;
         if (deadAnimals.size() != 0) {
             for (ElementAnimal animal : deadAnimals) {
                 avgTol += animal.dayOfDeath - animal.birthdate;
@@ -184,7 +184,7 @@ public class GameMap {
             }
             topGenome = Collections.max(genomes.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
         }
-
+        allEnergy = 0;
         for (int x = 0; x < this.width; x++){
             for (int y = 0; y < this.height; y++){
                 if (grid[y][x].animals.size() > 0) {
