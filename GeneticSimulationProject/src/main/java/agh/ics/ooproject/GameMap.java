@@ -152,7 +152,7 @@ public class GameMap {
             }
         }
     }
-    public void setStats(){
+    public synchronized void setStats(){
         avgTol = 0;
         topGenome = "None";
         allEnergy = 0;
