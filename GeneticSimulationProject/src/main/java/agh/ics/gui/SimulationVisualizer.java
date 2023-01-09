@@ -164,7 +164,7 @@ public class SimulationVisualizer {
         });
     }
 
-    public void updateScene() throws IOException {
+    public synchronized void updateScene() throws IOException {
          noAnimals = 0;
          noPlants = 0;
          noEmpty = 0;
@@ -246,8 +246,9 @@ public class SimulationVisualizer {
             this.indStatsLabels.get(6).setText(Integer.toString(followedOne.dayOfDeath));
             }
     }
-    private void highlightBest(){
-        for (Position pos : engine.map.topPositions){
+    private synchronized void highlightBest(){
+        final ArrayList<Position> ala = new ArrayList<>(engine.map.topPositions);
+        for (Position pos : ala){
             rectTable[pos.y][pos.x].setFill(Color.GREENYELLOW);
         }
     }
