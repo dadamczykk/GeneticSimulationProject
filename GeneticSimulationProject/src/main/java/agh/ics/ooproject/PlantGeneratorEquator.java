@@ -20,8 +20,6 @@ public class PlantGeneratorEquator extends AbstractPlantGenerator{
 
 
     public void addGrass(int n) {
-        int randomP;
-        int randomN;
         List<Cell> preferableCells = new ArrayList<>();
         List<Cell> notPreferableCells = new ArrayList<>();
         for (int i = 0; i < this.map.height; i++) {

@@ -44,14 +44,11 @@ public class ElementAnimal extends AbstractElement{
 
         this.dir = (this.dir + this.genotype.nextMove())%8;
         Position nextPosition = this.position.addDir(this.dir);
-//        System.out.println(map.type);
         switch (this.map.type){
             case VALHALLA -> {
-//                System.out.println("Val");
                 switch (this.map.isValidPosition(nextPosition)){
-                    case LEFT, RIGHT -> {
-                        nextPosition = new Position((nextPosition.x + this.map.width) % this.map.width, nextPosition.y);
-                    }
+                    case LEFT, RIGHT -> nextPosition = new Position((nextPosition.x + this.map.width) % this.map.width,
+                            nextPosition.y);
                     case UP, DOWN -> {
                         nextPosition = this.position;
                         this.dir = (this.dir + 4)%8;
