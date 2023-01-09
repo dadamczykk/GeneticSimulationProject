@@ -52,7 +52,7 @@ public class SimulationEngine implements Runnable {
                 BehaviourType.values()[args.get(3)]
         );
         this.gameEngine = new GameEngine(this.map);
-        this.sleepTime = 5;
+        this.sleepTime = sleepTime;
     }
 
     public synchronized void run(){
