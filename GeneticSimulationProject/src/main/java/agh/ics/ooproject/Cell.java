@@ -9,7 +9,7 @@ public class Cell {
     ElementGrass grass;
     GameMap map;
     int deaths;
-    int births;
+
     public boolean hasGrass;
     Position position;
     public Cell(GameMap map, Position position){

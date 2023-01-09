@@ -1,27 +1,20 @@
 package agh.ics.gui;
 
 import agh.ics.ooproject.*;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.*;
 
 public class SimulationVisualizer {
-    private final GridPane mainGrid = new GridPane();
 
     final ArrayList<Label> fullStatsLabels = new ArrayList<>();
 
@@ -49,10 +42,7 @@ public class SimulationVisualizer {
 
     private static final Color plantColor = Color.rgb(5,64,1);
 
-    private Stage stage;
-    private Scene scene;
-
-    private SimulationEngine engine;
+    private final SimulationEngine engine;
 
     int noAnimals = 0;
     int noPlants = 0;
@@ -64,9 +54,6 @@ public class SimulationVisualizer {
 
     public SimulationVisualizer(ArrayList <Integer> args, SimulationEngine eng){
         initArgs = args;
-        if (args.get(15) == 1){
-            System.out.println("zapisywanie do pliku");
-        }
         this.day = 0;
         this.engine = eng;
 
@@ -115,22 +102,23 @@ public class SimulationVisualizer {
         indStats.setGridLinesVisible(true);
         fullStats.setGridLinesVisible(true);
         Button startPause = new Button("Pause / Play");
-        startPause.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (!isPaused) {
-                    isPaused = true;
-                    engine.isPaused = true;
-                    highlightBest();
-                } else {
-                    engine.repause();
-                    isPaused = false;
-                }
+        startPause.setOnAction(event -> {
+            if (!isPaused) {
+//                    engine.map.setStats();
+                topGenome = engine.map.topGenome;
+                isPaused = true;
+                engine.isPaused = true;
+                highlightBest();
+
+            } else {
+                engine.repause();
+                isPaused = false;
             }
         });
 
         rectTable = new Rectangle[args.get(5)][args.get(4)];
         double cellDim = 750.0 / Math.max(args.get(4), args.get(5));
+        GridPane mainGrid = new GridPane();
         mainGrid.setAlignment(Pos.CENTER);
         VBox stats = new VBox(fullStats, indStats, startPause);
         stats.setSpacing(30);
@@ -148,14 +136,11 @@ public class SimulationVisualizer {
                 GridPane.setHalignment(rectTable[y][x], HPos.CENTER);
                 int finalY = y;
                 int finalX = x;
-                rectTable[y][x].setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        if (engine.map.grid[finalY][finalX].animals.size() > 0) {
-                            followedOne = engine.map.grid[finalY][finalX].animals.get(0);
-                            updateIndStats();
-                            rectTable[finalY][finalX].setFill(Color.CORNFLOWERBLUE);
-                        }
+                rectTable[y][x].setOnMouseClicked(event -> {
+                    if (engine.map.grid[finalY][finalX].animals.size() > 0) {
+                        followedOne = engine.map.grid[finalY][finalX].animals.get(0);
+                        updateIndStats();
+                        rectTable[finalY][finalX].setFill(Color.CORNFLOWERBLUE);
                     }
                 });
             }
@@ -165,20 +150,17 @@ public class SimulationVisualizer {
         }
         mainGrid.setGridLinesVisible(true);
         all.setAlignment(Pos.CENTER);
-        this.scene = new Scene(all);
-        this.stage = new Stage();
-        this.stage.setScene(scene);
-        this.stage.show();
-        this.stage.setWidth(scene.getWidth()*1.1);
-        this.stage.setHeight(scene.getHeight()*1.1);
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                if (engine.isPaused){
-                    engine.repause();
-                }
-                engine.app.threads.get(engine.simulationNumber).interrupt();
+        Scene scene = new Scene(all);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+        stage.setWidth(scene.getWidth()*1.1);
+        stage.setHeight(scene.getHeight()*1.1);
+        stage.setOnCloseRequest(event -> {
+            if (engine.isPaused){
+                engine.repause();
             }
+            engine.app.threads.get(engine.simulationNumber).interrupt();
         });
     }
 
@@ -186,30 +168,10 @@ public class SimulationVisualizer {
          noAnimals = 0;
          noPlants = 0;
          noEmpty = 0;
-         allEnergy = 0;
-         avgTol = 0;
-         topGenome = "";
 
-
-
-        if (engine.map.deadAnimals.size() != 0) {
-            for (ElementAnimal animal : engine.map.deadAnimals) {
-                avgTol += animal.dayOfDeath - animal.birthdate;
-            }
-            avgTol /= (float) engine.map.deadAnimals.size();
-        }
-        HashMap<String, Integer> genomes = new HashMap<String, Integer>();
-        if (engine.map.aliveAnimals.size() != 0) {
-            for (ElementAnimal animal : engine.map.aliveAnimals) {
-                String key = Arrays.toString(animal.genotype.genome);
-                if (genomes.containsKey(key)) {
-                    genomes.put(key, genomes.get(key) + 1);
-                } else {
-                    genomes.put(key, 1);
-                }
-            }
-            topGenome = Collections.max(genomes.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
-        }
+        avgTol = engine.map.avgTol;
+        topGenome = engine.map.topGenome;
+        allEnergy = engine.map.allEnergy;
 
 
 
@@ -227,9 +189,6 @@ public class SimulationVisualizer {
                 if (engine.map.grid[y][x].animals.size() > 0){
                     rectTable[y][x].setFill(lerpRGB(maxEnergy, engine.map.grid[y][x].animals.get(0).energy));
                     noAnimals = noAnimals + engine.map.grid[y][x].animals.size();
-                    for (ElementAnimal animal : engine.map.grid[y][x].animals){
-                        allEnergy += animal.energy;
-                    }
                 }
                 if (!engine.map.grid[y][x].hasGrass && engine.map.grid[y][x].animals.size() == 0){
                     noEmpty++;
@@ -239,6 +198,9 @@ public class SimulationVisualizer {
                 }
 
             }
+        }
+        if (engine.isPaused){
+            highlightBest();
         }
 
         this.updateFullStats();
@@ -260,9 +222,6 @@ public class SimulationVisualizer {
 
     }
 
-    private void changeOnFocusAnimal(int x, int y){
-//        this.followedOne =
-    }
 
     protected void updateFullStats() throws IOException {
         this.day++;
@@ -286,13 +245,10 @@ public class SimulationVisualizer {
                     day - followedOne.birthdate : followedOne.dayOfDeath - followedOne.birthdate));
             this.indStatsLabels.get(6).setText(Integer.toString(followedOne.dayOfDeath));
             }
-
     }
     private void highlightBest(){
-        for (ElementAnimal animal : engine.map.aliveAnimals){
-            if(Arrays.toString(animal.genotype.genome).equals(topGenome)){
-                rectTable[animal.position.y][animal.position.x].setFill(Color.GREENYELLOW);
-            }
+        for (Position pos : engine.map.topPositions){
+            rectTable[pos.y][pos.x].setFill(Color.GREENYELLOW);
         }
     }
 
