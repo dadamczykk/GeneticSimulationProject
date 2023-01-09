@@ -1,0 +1,10 @@
+Zasadniczo praca nad projektem została podzielona na stworzenie części odpowiadającej za logikę symulacji, oraz części odpowiadającej GUI.
+
+Dominik Adamczyk wykonał część odpowiadającą za graficzny interfejs, wczytywanie i zapisywanie plików, wielowątkowe aspekty projektu. Klasy napisane do tej części: wszystko w folderze gui, SimulationEngine z ooproject.
+
+Szymon Nowak-Trzos napisał klasy związane z logiką działania symulacji, czyli pozostałe klasy, które można znaleźć w folderze ooproject.
+
+Po napisaniu każdej z części nastąpiło wspólne łączenie programu, z którym było związane wzajemne modyfikowanie części kodu.
+
+Testy do odpowiednich funkcji zostały przygotowane przez autorów testowanych klas (na podstawie poprzedniego podziału).
+

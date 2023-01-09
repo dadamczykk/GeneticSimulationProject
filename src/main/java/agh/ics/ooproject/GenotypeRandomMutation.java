@@ -1,7 +1,5 @@
 package agh.ics.ooproject;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
 
 public class GenotypeRandomMutation extends AbstractGenotype {
     public GenotypeRandomMutation(ElementAnimal animal, int N){
