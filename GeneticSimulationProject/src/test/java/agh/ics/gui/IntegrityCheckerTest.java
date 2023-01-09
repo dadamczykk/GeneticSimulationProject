@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class integrityCheckerTest {
+public class IntegrityCheckerTest {
 
     @Test
     public void enumTest(){

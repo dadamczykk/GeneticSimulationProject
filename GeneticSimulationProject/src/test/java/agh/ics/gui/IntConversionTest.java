@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class intConversionTest {
+public class IntConversionTest {
 
     @Test
     public void integerTest(){
