@@ -35,7 +35,8 @@ public class SimulationVisualizerCSV extends SimulationVisualizer{
                 .filter(c -> Character.isDigit(c) || c == '[' || c == ']')
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString() + "," + String.format("%.2f", noAnimals != 0 ? (float) allEnergy / noAnimals : 0)
-                 + "," + String.format("%.2f", avgTol) + "\n");
+                .replace(",", ".")
+                + "," + String.format("%.2f", avgTol).replace(",", ".") + "\n");
         writer.close();
     }
 }
