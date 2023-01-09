@@ -186,9 +186,10 @@ public class SimulationVisualizer {
                     rectTable[y][x].setFill(plantColor);
                     noPlants++;
                 }
-                if (engine.map.grid[y][x].animals.size() > 0){
-                    rectTable[y][x].setFill(lerpRGB(maxEnergy, engine.map.grid[y][x].animals.get(0).energy));
-                    noAnimals = noAnimals + engine.map.grid[y][x].animals.size();
+                final ArrayList<ElementAnimal> anims = new ArrayList<>(engine.map.grid[y][x].animals);
+                if (anims.size() > 0 && anims.get(0) != null){
+                    rectTable[y][x].setFill(lerpRGB(maxEnergy, anims.get(0).energy));
+                    noAnimals = noAnimals + anims.size();
                 }
                 if (!engine.map.grid[y][x].hasGrass && engine.map.grid[y][x].animals.size() == 0){
                     noEmpty++;

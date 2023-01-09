@@ -69,11 +69,11 @@ public class GameMap {
         this.initializeGrass();
     }
 
-    public Cell getCellAt(Position position){
+    public synchronized Cell getCellAt(Position position){
         return this.grid[position.y][position.x];
     }
 
-    public void initializeAnimals(){
+    public synchronized void initializeAnimals(){
         int randomX;
         int randomY;
         ElementAnimal animal;
@@ -86,11 +86,11 @@ public class GameMap {
             this.aliveAnimals.add(animal);
         }
     }
-    public void initializeGrass(){
+    public synchronized void initializeGrass(){
         this.plantGenerator.initialize();
     }
 
-    public void deleteDead(){
+    public synchronized void deleteDead(){
         List<ElementAnimal> toDelete = new ArrayList<>();
         for (ElementAnimal aliveAnimal : aliveAnimals) {
             aliveAnimal.energy--;
@@ -108,7 +108,7 @@ public class GameMap {
             this.getCellAt(element.position).removeElement(element);
         }
     }
-    public Border isValidPosition(Position position){
+    public synchronized Border isValidPosition(Position position){
         if (position.x < this.width && position.x >= 0 && position.y < this.height && position.y >= 0){
             return Border.INSIDE;
         }
@@ -127,7 +127,7 @@ public class GameMap {
         }
         return Border.DOWN;
     }
-    public void updateAnimalPositions(){
+    public synchronized void updateAnimalPositions(){
         List<ElementAnimal> toMove = new ArrayList<>();
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
@@ -138,14 +138,14 @@ public class GameMap {
             element.move();
         }
     }
-    public void consumption(){
+    public synchronized void consumption(){
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
                 this.grid[i][j].eatGrass();
             }
         }
     }
-    public void procreation(){
+    public synchronized void procreation(){
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
                 this.grid[i][j].procreate();
