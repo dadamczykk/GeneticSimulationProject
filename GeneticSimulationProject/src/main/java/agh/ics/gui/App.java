@@ -376,7 +376,7 @@ public class App extends Application {
 
     }
 
-    private void integrityChecker(ArrayList<Integer> args) throws Exception{
+    public static void integrityChecker(ArrayList<Integer> args) throws Exception{
         for (int i = 0; i < 4; i++){
             if (args.get(i) < 0 || args.get(i) > 1){
                 throw new Exception("Slider values must be 0 or 1");
@@ -406,7 +406,7 @@ public class App extends Application {
         if (args.get(10) < 1 || args.get(11) < 1){
             throw new Exception("Non positive animal energy value is incorrect");
         }
-        if (args.get(12) * args.get(13) < 0){
+        if (args.get(12) * args.get(13) < 0 || args.get(12) + args.get(13) < 0){
             throw new Exception("Children mutations cannot be negative");
         }
         if (args.get(12) > args.get(13)){
@@ -414,6 +414,9 @@ public class App extends Application {
         }
         if (args.get(14) <= 0){
             throw new Exception("Genome length has to be positive");
+        }
+        if (args.get(11) > args.get(10)){
+            throw new Exception("Energy, that children consumes \n is bigger than satisfying energy");
         }
 
 
