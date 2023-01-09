@@ -250,8 +250,8 @@ public class App extends Application {
                 integrityChecker(arguments);
 
                 int time = Integer.parseInt(animationTime.getText());
-                if (time < 50){
-                    throw new Exception("Time cannot be lower than 50");
+                if (time < 10){
+                    throw new Exception("Time cannot be lower than 10");
                 }
                 startNew(arguments, time);
 
