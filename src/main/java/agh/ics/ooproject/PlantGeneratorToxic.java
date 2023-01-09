@@ -10,9 +10,7 @@ public class PlantGeneratorToxic extends AbstractPlantGenerator{
     public void addGrass(int n){
         List<Cell> cells = new ArrayList<>();
         for (int i = 0; i < this.map.height; i++){
-            for (int j = 0; j < this.map.width; j++){
-                cells.add(this.map.grid[i][j]);
-            }
+            cells.addAll(Arrays.asList(this.map.grid[i]).subList(0, this.map.width));
         }
 
         Comparator<Cell> byDeaths = Comparator.comparingInt((Cell x) -> x.deaths);

@@ -11,7 +11,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -267,7 +266,7 @@ public class App extends Application {
 
         writeToFile.setOnAction(event -> {
 
-            try { // to całe parsowanie tutaj jest potrzebne, żeby sprawdzać, czy dane wejściowe są poprawne.
+            try {
                 ArrayList<Integer> arguments = new ArrayList<>(Arrays.asList(worldVersion.getValue().ordinal(),
                         plantsVersion.getValue().ordinal(),
                         mutationVersion.getValue().ordinal(), behaviourVersion.getValue().ordinal(),

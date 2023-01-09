@@ -1,10 +1,8 @@
 package agh.ics.ooproject;
 
 import java.util.List;
-import java.util.Map;
 
 abstract public class AbstractPlantGenerator {
-    Map<Position, ElementGrass> grasses;
     GameMap map;
     public void initialize(){
         addGrass(this.map.noPlants);
