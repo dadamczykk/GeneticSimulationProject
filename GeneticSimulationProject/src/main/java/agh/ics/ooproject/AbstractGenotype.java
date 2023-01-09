@@ -51,7 +51,6 @@ abstract public class AbstractGenotype {
                             this.currentGenIdx = (int) Math.floor(Math.random()*N);
                         }
                     }
-                    this.wasUsed[this.currentGenIdx] = 1;
                 }else{
                     if (this.wasUsed[(this.currentGenIdx + 1)%this.N] == 1){
                         for (int i = 0; i < N; i++) {
@@ -64,8 +63,8 @@ abstract public class AbstractGenotype {
                         this.currentGenIdx = (int) Math.floor(Math.random()*N);
                         this.startingIdx = this.currentGenIdx;
                     }
-                    this.wasUsed[this.currentGenIdx] = 1;
                 }
+                this.wasUsed[this.currentGenIdx] = 1;
             }
         }
         return this.genome[currentGenIdx];

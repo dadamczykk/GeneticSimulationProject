@@ -1,18 +1,14 @@
 package agh.ics.gui;
 
 import agh.ics.ooproject.*;
-import agh.ics.ooproject.GameMap;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
@@ -23,14 +19,9 @@ import java.io.IOException;
 import java.util.*;
 
 public class App extends Application {
-    private GameMap map;
-    private Stage stage;
-
     public ArrayList<Thread> threads = new ArrayList<>();
 
     private final List<SimulationEngine> engines = new ArrayList<>();
-//    private List<SimulationVisualizer> visualizers = new ArrayList<>();
-
 
     @Override
     public void init(){
@@ -38,7 +29,7 @@ public class App extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
 
         Scene scene = this.createStartScreen();
 
@@ -47,8 +38,6 @@ public class App extends Application {
         primaryStage.setWidth(scene.getWidth()*1.1);
         primaryStage.setHeight(scene.getHeight()*1.1);
 
-//        String val = worldVersion.getValue();
-//        System.out.println(val);
     }
 
     private Scene createStartScreen(){
@@ -56,7 +45,6 @@ public class App extends Application {
         int minHeight = 30;
         int spacing = 10;
 
-        Font mainFont = new Font("Comic Sans MS", 15);
 
         ObservableList<MapType> worldVersions = FXCollections.observableArrayList(MapType.HEL, MapType.VALHALLA);
         ComboBox<MapType> worldVersion = new ComboBox<>(worldVersions);
@@ -66,7 +54,6 @@ public class App extends Application {
         worldStr.setMinWidth(minWidth);
         worldStr.setMinHeight(minHeight);
         worldStr.setTextAlignment(TextAlignment.CENTER);
-//        worldStr.setFont(mainFont);
         HBox worldCont = new HBox(worldStr, worldVersion);
         worldVersion.setValue(MapType.VALHALLA);
 
@@ -80,7 +67,6 @@ public class App extends Application {
         plantsStr.setMinWidth(minWidth);
         plantsStr.setMinHeight(minHeight);
         plantsStr.setTextAlignment(TextAlignment.CENTER);
-//        plantsStr.setFont(mainFont);
         HBox plantsCont = new HBox(plantsStr, plantsVersion);
         plantsVersion.setValue(PlantType.EQUATOR);
 
@@ -94,7 +80,6 @@ public class App extends Application {
         mutationStr.setMinWidth(minWidth);
         mutationStr.setMinHeight(minHeight);
         mutationStr.setTextAlignment(TextAlignment.CENTER);
-//        mutationStr.setFont(mainFont);
         HBox mutationsCont = new HBox(mutationStr, mutationVersion);
         mutationVersion.setValue(MutationType.RANDOM);
 
@@ -108,7 +93,6 @@ public class App extends Application {
         behaviourStr.setMinWidth(minWidth);
         behaviourStr.setMinHeight(minHeight);
         behaviourStr.setTextAlignment(TextAlignment.CENTER);
-//        behaviourStr.setFont(mainFont);
         HBox behaviourCont = new HBox(behaviourStr, behaviourVersion);
         behaviourVersion.setValue(BehaviourType.MADNESS);
 
@@ -128,7 +112,6 @@ public class App extends Application {
 
         TextField mapWidthField = new TextField("10");
         Label mapWidthLabel = new Label("Choose the width of the map");
-        HBox mapWidthCont = new HBox(mapWidthLabel, mapWidthField);
         mapWidthLabel.setMinWidth(minWidth);
         mapWidthLabel.setMinHeight(minHeight);
         mapWidthField.setMinWidth(minWidth);
@@ -136,7 +119,6 @@ public class App extends Application {
 
         TextField mapHeightField = new TextField("15");
         Label mapHeightLabel = new Label("Choose the height of the map");
-        HBox mapHeightCont = new HBox(mapHeightLabel, mapHeightField);
         mapHeightLabel.setMinWidth(minWidth);
         mapHeightLabel.setMinHeight(minHeight);
         mapHeightField.setMinWidth(minWidth);
@@ -144,7 +126,6 @@ public class App extends Application {
 
         TextField plantsOnStart = new TextField("5");
         Label plantsOnStartLabel = new Label("Choose initial number of plants");
-        HBox plantsOnStartCont = new HBox(plantsOnStartLabel, plantsOnStart);
         plantsOnStartLabel.setMinWidth(minWidth);
         plantsOnStartLabel.setMinHeight(minHeight);
         plantsOnStart.setMinWidth(minWidth);
@@ -152,7 +133,6 @@ public class App extends Application {
 
         TextField plantsPerDay = new TextField("5");
         Label plantsPerDayLabel = new Label("Choose how many plants will spawn every day");
-        HBox plantsPerDayCont = new HBox(plantsOnStartLabel, plantsOnStart);
         plantsPerDayLabel.setMinWidth(minWidth);
         plantsPerDayLabel.setMinHeight(minHeight);
         plantsPerDay.setMinWidth(minWidth);
@@ -160,7 +140,6 @@ public class App extends Application {
 
         TextField animalsOnStart = new TextField("5");
         Label animalsOnStartLabel = new Label("Choose the initial number of animals");
-        HBox animalsOnStartCont = new HBox(animalsOnStartLabel, animalsOnStart);
         animalsOnStart.setMinWidth(minWidth);
         animalsOnStart.setMinHeight(minHeight);
         animalsOnStartLabel.setMinWidth(minWidth);
@@ -168,7 +147,6 @@ public class App extends Application {
 
         TextField plantEnergy = new TextField("5");
         Label plantEnergyLabel = new Label("Choose the energy given by plants");
-        HBox plantEnergyCont = new HBox(plantEnergyLabel, plantEnergy);
         plantEnergyLabel.setMinWidth(minWidth);
         plantEnergyLabel.setMinHeight(minHeight);
         plantEnergy.setMinWidth(minWidth);
@@ -176,7 +154,6 @@ public class App extends Application {
 
         TextField animalsEnergy = new TextField("5");
         Label animalsEnergyLabel = new Label("Choose the initial energy of animals");
-        HBox animalsEnergyCont = new HBox(animalsEnergyLabel, animalsEnergy);
         animalsEnergyLabel.setMinWidth(minWidth);
         animalsEnergyLabel.setMinHeight(minHeight);
         animalsEnergy.setMinWidth(minWidth);
@@ -184,7 +161,6 @@ public class App extends Application {
 
         TextField animalFullEnergy = new TextField("5");
         Label animalFullEnergyLabel = new Label("Choose the satisfying energy");
-        HBox animalFullEnergyCont = new HBox(animalFullEnergyLabel, animalFullEnergy);
         animalFullEnergyLabel.setMinWidth(minWidth);
         animalFullEnergyLabel.setMinHeight(minHeight);
         animalFullEnergy.setMinWidth(minWidth);
@@ -192,7 +168,6 @@ public class App extends Application {
 
         TextField animalCopulateEnergy = new TextField("5");
         Label animalCopulateEnergyLabel = new Label("Choose the energy spent on a child");
-        HBox animalCopulateEnergyCont = new HBox(animalCopulateEnergyLabel, animalCopulateEnergy);
         animalCopulateEnergyLabel.setMinWidth(minWidth);
         animalCopulateEnergyLabel.setMinHeight(minHeight);
         animalCopulateEnergy.setMinWidth(minWidth);
@@ -200,7 +175,6 @@ public class App extends Application {
 
         TextField minChildMutations = new TextField("2");
         Label minChildMutationsLabel = new Label("Choose the minimum mutations of a genome");
-        HBox minChildMutationsCont = new HBox(minChildMutationsLabel, minChildMutations);
         minChildMutationsLabel.setMinWidth(minWidth);
         minChildMutationsLabel.setMinHeight(minHeight);
         minChildMutations.setMinWidth(minWidth);
@@ -208,7 +182,6 @@ public class App extends Application {
 
         TextField maxChildMutations = new TextField("5");
         Label maxChildMutationsLabel = new Label("Choose the maximum mutations of a genome");
-        HBox maxChildMutationsCont = new HBox(maxChildMutationsLabel, maxChildMutations);
         maxChildMutationsLabel.setMinWidth(minWidth);
         maxChildMutationsLabel.setMinHeight(minHeight);
         maxChildMutations.setMinWidth(minWidth);
@@ -216,7 +189,6 @@ public class App extends Application {
 
         TextField genomeLength = new TextField("4");
         Label genomeLengthLabel = new Label("Choose the length of a genome");
-        HBox genomeLengthCont = new HBox(genomeLengthLabel, genomeLength);
         genomeLengthLabel.setMinWidth(minWidth);
         genomeLengthLabel.setMinHeight(minHeight);
         genomeLength.setMinWidth(minWidth);
@@ -253,117 +225,104 @@ public class App extends Application {
 
         CheckBox saveData = new CheckBox("Save data of an animation to a csv");
 
-        iosLogic.getChildren().addAll(sourceFile, readFromFile, outFile, writeToFile, message, saveData, startSim);
+        Label animationTimeTxt = new Label("Length of day (in milliseconds):");
+
+        TextField animationTime = new TextField("1000");
+
+        iosLogic.getChildren().addAll(sourceFile, readFromFile, outFile, writeToFile, message, saveData,
+                animationTimeTxt, animationTime, startSim);
 
         iosLogic.setSpacing(3*spacing);
         iosLogic.setAlignment(Pos.CENTER);
 
-//        mapHeightField.textProperty().addListener(new ChangeListener<String>(){
-//            @Override
-//            public void changed(ObservableValue<? extends String> observable, String oldValue,
-//                                String newValue) {
-//                if (!newValue.matches("\\d*")) {
-//                    mapHeightField.setText(newValue.replaceAll("[^\\d]", ""));
-//                }
-//            }
-//        });
+        startSim.setOnAction(event -> {
+            try { // to całe parsowanie tutaj jest potrzebne, żeby sprawdzać, czy dane wejściowe są poprawne.
+                ArrayList<Integer> arguments = new ArrayList<>(Arrays.asList(worldVersion.getValue().ordinal(),
+                        plantsVersion.getValue().ordinal(),
+                        mutationVersion.getValue().ordinal(), behaviourVersion.getValue().ordinal(),
+                        Integer.parseInt(mapWidthField.getText()), Integer.parseInt(mapHeightField.getText()),
+                        Integer.parseInt(plantsOnStart.getText()), Integer.parseInt(animalsOnStart.getText()),
+                        Integer.parseInt(plantEnergy.getText()), Integer.parseInt(animalsEnergy.getText()),
+                        Integer.parseInt(animalFullEnergy.getText()), Integer.parseInt(animalCopulateEnergy.getText()),
+                        Integer.parseInt(minChildMutations.getText()), Integer.parseInt(maxChildMutations.getText()),
+                        Integer.parseInt(genomeLength.getText()), saveData.isSelected() ? 1 : 0,
+                        Integer.parseInt(plantsPerDay.getText())));
+                integrityChecker(arguments);
 
-
-        startSim.setOnAction(new EventHandler<>() {
-            @Override
-            public void handle(ActionEvent event) {
-                try { // to całe parsowanie tutaj jest potrzebne, żeby sprawdzać, czy dane wejściowe są poprawne.
-                    ArrayList<Integer> arguments = new ArrayList<>(Arrays.asList(worldVersion.getValue().ordinal(),
-                            plantsVersion.getValue().ordinal(),
-                            mutationVersion.getValue().ordinal(), behaviourVersion.getValue().ordinal(),
-                            Integer.parseInt(mapWidthField.getText()), Integer.parseInt(mapHeightField.getText()),
-                            Integer.parseInt(plantsOnStart.getText()), Integer.parseInt(animalsOnStart.getText()),
-                            Integer.parseInt(plantEnergy.getText()), Integer.parseInt(animalsEnergy.getText()),
-                            Integer.parseInt(animalFullEnergy.getText()), Integer.parseInt(animalCopulateEnergy.getText()),
-                            Integer.parseInt(minChildMutations.getText()), Integer.parseInt(maxChildMutations.getText()),
-                            Integer.parseInt(genomeLength.getText()), saveData.isSelected() ? 1 : 0,
-                            Integer.parseInt(plantsPerDay.getText())));
-                    integrityChecker(arguments);
-//                    if (Integer.parseInt(minChildMutations.getText()) >= Integer.parseInt(maxChildMutations.getText())) {
-//                        throw new Exception("Incorrect min and max value of children mutations");
-//                    }
-                    startNew(arguments);
-
-
-                } catch (NullPointerException e) {
-                    message.setText("There are empty values! Simulation cannot run!");
-                } catch (NumberFormatException e) {
-                    message.setText("Invalid value of a textBox, there might be letters\n or integer value is too big");
-                } catch (Exception e) {
-                    message.setText(e.getMessage());
+                int time = Integer.parseInt(animationTime.getText());
+                if (time < 50){
+                    throw new Exception("Time cannot be lower than 50");
                 }
+                startNew(arguments, time);
+
+
+            } catch (NullPointerException e) {
+                message.setText("There are empty values! Simulation cannot run!");
+            } catch (NumberFormatException e) {
+                message.setText("Invalid value of a textBox, there might be letters\n or integer value is too big");
+            } catch (Exception e) {
+                message.setText(e.getMessage());
             }
         });
 
-        writeToFile.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
+        writeToFile.setOnAction(event -> {
 
-                try { // to całe parsowanie tutaj jest potrzebne, żeby sprawdzać, czy dane wejściowe są poprawne.
-                    ArrayList<Integer> arguments = new ArrayList<>(Arrays.asList(worldVersion.getValue().ordinal(),
-                            plantsVersion.getValue().ordinal(),
-                            mutationVersion.getValue().ordinal(), behaviourVersion.getValue().ordinal(),
-                            Integer.parseInt(mapWidthField.getText()), Integer.parseInt(mapHeightField.getText()),
-                            Integer.parseInt(plantsOnStart.getText()), Integer.parseInt(animalsOnStart.getText()),
-                            Integer.parseInt(plantEnergy.getText()), Integer.parseInt(animalsEnergy.getText()),
-                            Integer.parseInt(animalFullEnergy.getText()), Integer.parseInt(animalCopulateEnergy.getText()),
-                            Integer.parseInt(minChildMutations.getText()), Integer.parseInt(maxChildMutations.getText()),
-                            Integer.parseInt(genomeLength.getText()), saveData.isSelected() ? 1 : 0,
-                            Integer.parseInt(plantsPerDay.getText())));
-                    integrityChecker(arguments);
-                    saveConfigToFile(arguments, outFile.getText());
+            try { // to całe parsowanie tutaj jest potrzebne, żeby sprawdzać, czy dane wejściowe są poprawne.
+                ArrayList<Integer> arguments = new ArrayList<>(Arrays.asList(worldVersion.getValue().ordinal(),
+                        plantsVersion.getValue().ordinal(),
+                        mutationVersion.getValue().ordinal(), behaviourVersion.getValue().ordinal(),
+                        Integer.parseInt(mapWidthField.getText()), Integer.parseInt(mapHeightField.getText()),
+                        Integer.parseInt(plantsOnStart.getText()), Integer.parseInt(animalsOnStart.getText()),
+                        Integer.parseInt(plantEnergy.getText()), Integer.parseInt(animalsEnergy.getText()),
+                        Integer.parseInt(animalFullEnergy.getText()), Integer.parseInt(animalCopulateEnergy.getText()),
+                        Integer.parseInt(minChildMutations.getText()), Integer.parseInt(maxChildMutations.getText()),
+                        Integer.parseInt(genomeLength.getText()), saveData.isSelected() ? 1 : 0,
+                        Integer.parseInt(plantsPerDay.getText())));
+                integrityChecker(arguments);
+                saveConfigToFile(arguments, outFile.getText());
 
-                    message.setText("File successfully created");
+                message.setText("File successfully created");
 
-                } catch (NullPointerException e){
-                    message.setText("There are empty values! File will not be saved");
-                }
-                catch (NumberFormatException e){
-                    message.setText("Invalid value of a textBox");
-                } catch (Exception e){
-                    message.setText(e.getMessage());
-                }
+            } catch (NullPointerException e){
+                message.setText("There are empty values! File will not be saved");
+            }
+            catch (NumberFormatException e){
+                message.setText("Invalid value of a textBox");
+            } catch (Exception e){
+                message.setText(e.getMessage());
             }
         });
-        readFromFile.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
+        readFromFile.setOnAction(event -> {
 
-                try {
-                    HashMap <Integer, Integer> filling = readFile(sourceFile.getText());
-                    worldVersion.setValue(MapType.values()[filling.get(0)]);
-                    plantsVersion.setValue(PlantType.values()[filling.get(1)]);
-                    mutationVersion.setValue(MutationType.values()[filling.get(2)]);
-                    behaviourVersion.setValue(BehaviourType.values()[filling.get(3)]);
-                    mapWidthField.setText(filling.get(4).toString());
-                    mapHeightField.setText(filling.get(5).toString());
-                    plantsOnStart.setText(filling.get(6).toString());
-                    animalsOnStart.setText(filling.get(7).toString());
-                    plantEnergy.setText(filling.get(8).toString());
-                    animalsEnergy.setText(filling.get(9).toString());
-                    animalFullEnergy.setText(filling.get(10).toString());
-                    animalCopulateEnergy.setText(filling.get(11).toString());
-                    minChildMutations.setText(filling.get(12).toString());
-                    maxChildMutations.setText(filling.get(13).toString());
-                    genomeLength.setText(filling.get(14).toString());
-                    saveData.setSelected(filling.get(15) == 1);
-                    plantsPerDay.setText(filling.get(16).toString());
-                    message.setText("Successfully read the input file");
-                } catch (FileNotFoundException e) {
-                    message.setText("File with a given name does not exist");
-                } catch (NullPointerException e){
-                    message.setText("Corrupted input file - some values may not be set properly");
-                }
-                catch (Exception e){
-                    message.setText(e.getMessage() + e);
-                }
-
+            try {
+                HashMap <Integer, Integer> filling = readFile(sourceFile.getText());
+                worldVersion.setValue(MapType.values()[filling.get(0)]);
+                plantsVersion.setValue(PlantType.values()[filling.get(1)]);
+                mutationVersion.setValue(MutationType.values()[filling.get(2)]);
+                behaviourVersion.setValue(BehaviourType.values()[filling.get(3)]);
+                mapWidthField.setText(filling.get(4).toString());
+                mapHeightField.setText(filling.get(5).toString());
+                plantsOnStart.setText(filling.get(6).toString());
+                animalsOnStart.setText(filling.get(7).toString());
+                plantEnergy.setText(filling.get(8).toString());
+                animalsEnergy.setText(filling.get(9).toString());
+                animalFullEnergy.setText(filling.get(10).toString());
+                animalCopulateEnergy.setText(filling.get(11).toString());
+                minChildMutations.setText(filling.get(12).toString());
+                maxChildMutations.setText(filling.get(13).toString());
+                genomeLength.setText(filling.get(14).toString());
+                saveData.setSelected(filling.get(15) == 1);
+                plantsPerDay.setText(filling.get(16).toString());
+                message.setText("Successfully read the input file");
+            } catch (FileNotFoundException e) {
+                message.setText("File with a given name does not exist");
+            } catch (NullPointerException e){
+                message.setText("Corrupted input file - some values may not be set properly");
             }
+            catch (Exception e){
+                message.setText(e.getMessage() + e);
+            }
+
         });
 
         choices.getChildren().addAll(toFill);
@@ -459,15 +418,11 @@ public class App extends Application {
 
 
     }
-    private void startNew(ArrayList<Integer> arguments) throws IOException {
-        SimulationEngine se = new SimulationEngine(engines.size(), arguments, this);
+    private void startNew(ArrayList<Integer> arguments, int time) throws IOException {
+        SimulationEngine se = new SimulationEngine(engines.size(), arguments, this, time);
         engines.add(se);
         Thread th = new Thread(se);
         th.start();
         threads.add(th);
     }
-    public void pauseThread(int no) throws InterruptedException {
-        this.threads.get(no).wait();
-    }
-
 }
